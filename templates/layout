@@ -10,5 +10,11 @@
     <body>
         {{ template "body" }}
     </body>
+    <footer>
+        <div class="center bottomCallout">
+            <span class="initials">L & M</span>
+            <span class="date">{{ .TargetDate }}</span>
+        </div>
+    </footer>
 </html>
 {{ end }}

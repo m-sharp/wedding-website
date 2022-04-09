@@ -15,6 +15,7 @@ const (
 )
 
 type RenderContext struct {
+	TargetDate string
 	TargetYear int
 }
 
@@ -22,6 +23,7 @@ func main() {
 	// Declare rendering context variables
 	pageContext := &RenderContext{
 		TargetYear: 2023,
+		TargetDate: "4.20.69",
 	}
 
 	// Handle static asset requests
