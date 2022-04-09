@@ -1,2 +1,2 @@
 # wedding-website
-Simple static website power by Go for our wedding
+Simple static website powered by Go for our wedding
