@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	DEBUG        = true
+	DEBUG        = false
 	TemplatesDir = "templates"
 )
 
@@ -29,14 +29,22 @@ func main() {
 	// Handle static asset requests
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
+	// Handle special files
+	http.HandleFunc("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./site_files/robots.txt")
+	})
+	http.HandleFunc("/sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./site_files/sitemap.xml")
+	})
+
 	// Handle other requests
 	layoutTplPath := filepath.Join(TemplatesDir, "layout")
 	http.HandleFunc("/", handlePageRequests(layoutTplPath, pageContext))
 
 	//Start the web server, set the port to listen to 8080. Without a path it assumes localhost
 	//Print any errors from starting the webserver using fmt
-	log.Println("Listening on port 8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	log.Println("Listening on port 8081")
+	if err := http.ListenAndServe(":8081", nil); err != nil {
 		log.Panic(fmt.Errorf("stopped listening with error: %w", err).Error())
 	}
 }
@@ -72,8 +80,12 @@ func handlePageRequests(layoutTplPath string, pageContext *RenderContext) func(h
 
 func getTargetTplPath(urlPath string) string {
 	cleanedPath := filepath.Clean(urlPath)
-	if cleanedPath == "\\" {
+	switch cleanedPath {
+	case "\\":
 		cleanedPath = "\\home"
+	case "/":
+		cleanedPath = "/home"
+	default:
 	}
 	return filepath.Join(TemplatesDir, cleanedPath)
 }
