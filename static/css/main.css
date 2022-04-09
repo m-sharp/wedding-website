@@ -1,11 +1,12 @@
 body  {
     height: 100%;
+    margin: 0;
+}
+
+.maintenance {
     background-image: url(/static/assets/outdoor-wedding-background.jpg), linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.3));
     background-blend-mode: overlay;
     background-size: 100%;
-}
-
-.welcome {
     font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
     font-size: 3rem;
     color: aliceblue;
