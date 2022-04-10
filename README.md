@@ -17,12 +17,16 @@ Simple static website powered by Go for our wedding
   - In background: `docker run -p 8080:8081 -d registry.digitalocean.com/harp-do-registry/wedding-website:<VERSION>`
 - Push to DigitalOcean: `docker login registry.digitalocean.com && docker push registry.digitalocean.com/harp-do-registry/wedding-website:latest`
 
-Commands for running by hand:
+Commands for running builds by hand:
 - SASS Build:
   - `sass sass/style.scss sass/main.css`
 - Minify JS and CSS:
   - `docker run -i tdewolff/minify minify --type=css < sass/main.css > static/css/main.min.css 2>&1`
   - `docker run -i tdewolff/minify minify --type=js < js/main.js > static/js/main.min.js 2>&1`
+
+## Required Environment Variables
+
+- `EmailPassword` - App password for email account.
 
 ## Acknowledgements
 

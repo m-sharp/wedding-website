@@ -22,7 +22,7 @@ func main() {
 	// Declare rendering context variables
 	pageContext := &RenderContext{
 		TargetYear: 2023,
-		TargetDate: "??.??.23",
+		TargetDate: "10.7.23",
 	}
 
 	// Handle static asset requests
