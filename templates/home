@@ -1,0 +1,3 @@
+{{ define "body" }}
+<div class="center maintenance">We're Still Under Construction, Come Back Soon!</div>
+{{ end }}
