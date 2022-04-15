@@ -1,0 +1,42 @@
+/*General*/
+body  {
+  height: 100%;
+  margin: 0;
+}
+
+.maintenance {
+  background-image: url(/static/assets/outdoor-wedding-background.jpg), linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.3));
+  background-blend-mode: overlay;
+  background-size: 100%;
+  font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
+  font-size: 3rem;
+  color: aliceblue;
+}
+
+.center {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+/* Footer */
+footer {}
+
+footer .bottomCallout {
+  flex-direction: column;
+  height: 100%;
+}
+
+footer .bottomCallout .initials {
+  padding: 0.5em 0 0.3em;
+  font-size: 36px;
+  letter-spacing: 2px;
+  border-bottom: 2px solid #000000;
+}
+
+footer .bottomCallout .date {
+  padding: 0.5em 0 1em;
+  font-size: 26px;
+  letter-spacing: 4px;
+}

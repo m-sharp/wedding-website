@@ -16,3 +16,8 @@
 
 # IDE Folders
 .idea/
+
+# SASS Build
+sass/main.css
+sass/main.css.map
+static/css/main.min.css
