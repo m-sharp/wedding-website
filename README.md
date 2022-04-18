@@ -7,6 +7,7 @@ Simple static website powered by Go for our wedding
 - Go
 - [SASS](https://sass-lang.com/install)
 - [Minify tool](https://github.com/tdewolff/minify/tree/master/cmd/minify)
+- Pull down [Bulma](https://bulma.io) styles - `cd vendor && git clone git@github.com:jgthms/bulma.git`
 
 ## Dev Reference
 
@@ -22,3 +23,7 @@ Simple static website powered by Go for our wedding
   - `docker pull tdewolff/minify`
   - `touch static/css/main.css.min`
   - `docker run -i tdewolff/minify minify --type=css < sass/main.css > static/css/main.css.min 2>&1`
+
+## Acknowledgements
+
+- Backgrounds from [Subtle Patterns](https://www.toptal.com/designers/subtlepatterns/)

@@ -1,3 +1,28 @@
+@charset "utf-8";
+
+// ToDo - Get icons
+// ToDo - Get flowery marquee image
+// ToDo - Get fonts - nice print for web text, fancy cursive for titles
+// ToDo - brand colors
+
+// Bulma Overrides
+// Brand Colors
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+// Update Bulma's global variables
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $purple;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+@import "../vendor/bulma/bulma.sass";
+
 /*General*/
 body  {
   height: 100%;
@@ -21,22 +46,13 @@ body  {
 }
 
 /* Footer */
-footer {}
-
-footer .bottomCallout {
-  flex-direction: column;
-  height: 100%;
-}
-
-footer .bottomCallout .initials {
-  padding: 0.5em 0 0.3em;
-  font-size: 36px;
+footer .initials {
+  margin: auto;
   letter-spacing: 2px;
-  border-bottom: 2px solid #000000;
+  border-bottom: 2px solid #757763;
+;
 }
 
-footer .bottomCallout .date {
-  padding: 0.5em 0 1em;
-  font-size: 26px;
+footer .date {
   letter-spacing: 4px;
 }
