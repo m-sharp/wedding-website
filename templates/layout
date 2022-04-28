@@ -19,8 +19,11 @@
             gtag('js', new Date());
             gtag('config', 'G-Q135MHTHK3');
         </script>
+        <!-- FontAwesome Icons -->
+        <script src="https://kit.fontawesome.com/5c0b17ed4e.js" crossorigin="anonymous"></script>
     </head>
     <body>
+        {{ template "nav" }}
         {{ template "body" }}
     </body>
     <footer class="footer">

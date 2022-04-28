@@ -1,0 +1,15 @@
+{{ define "body" }}
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1">Our Story</h1>
+        <div class="box content">
+            <p>Shaman chillwave single-origin coffee shoreditch try-hard banjo waistcoat literally hell of dreamcatcher roof party viral copper mug venmo gastropub. Master cleanse shoreditch glossier iPhone. Blue bottle selvage tattooed yr photo booth direct trade you probably haven't heard of them normcore polaroid godard chicharrones. Air plant yr tumblr knausgaard flexitarian quinoa kombucha listicle 8-bit four loko skateboard bicycle rights.</p>
+            <p>Wolf 8-bit intelligentsia viral. Microdosing poutine small batch ramps forage post-ironic. Echo park yr YOLO synth, cronut kale chips tbh. Letterpress fixie irony locavore. DIY listicle brooklyn XOXO quinoa, ramps selfies helvetica activated charcoal PBR&B YOLO. Beard kogi vape typewriter raw denim prism offal shabby chic PBR&B sartorial. Godard forage tousled post-ironic poutine cliche cloud bread.</p>
+            <p>Artisan polaroid affogato listicle, semiotics williamsburg offal art party helvetica tacos ethical you probably haven't heard of them keytar. Cliche art party single-origin coffee brooklyn chillwave enamel pin. Authentic neutra flexitarian direct trade cred viral biodiesel tofu brunch cardigan chillwave pabst. Cronut gentrify chartreuse, VHS hoodie sriracha asymmetrical lo-fi crucifix vaporware church-key readymade la croix. La croix cliche everyday carry mixtape kale chips, neutra hot chicken hell of thundercats street art PBR&B affogato cred. Freegan paleo hammock pabst letterpress.</p>
+            <p>Beard thundercats pitchfork la croix, helvetica mixtape poke XOXO tacos bitters fashion axe hexagon small batch post-ironic. Austin kinfolk pug poke chambray, photo booth lumbersexual tacos la croix schlitz. Green juice man braid hell of four loko hammock, post-ironic quinoa chartreuse freegan la croix. Vape everyday carry hashtag master cleanse cred pug ennui raclette pinterest. Artisan single-origin coffee kombucha heirloom cliche put a bird on it selvage normcore. Prism kombucha cred pop-up enamel pin la croix, gochujang dreamcatcher. Palo santo umami meditation keffiyeh butcher glossier yuccie marfa actually cornhole tote bag cray skateboard.</p>
+            <p>Woke trust fund craft beer master cleanse salvia, post-ironic actually bicycle rights yr pok pok readymade try-hard pinterest. Selvage typewriter tbh neutra. YOLO woke locavore artisan beard 8-bit pitchfork hammock trust fund food truck letterpress fanny pack. Next level pug mumblecore kale chips pitchfork lumbersexual swag sartorial cray keffiyeh. Squid raclette glossier, cornhole 90's yuccie quinoa pinterest.</p>
+            <p>Dummy text? More like dummy thicc text, amirite?</p>
+        </div>
+    </div>
+</section>
+{{ end }}
