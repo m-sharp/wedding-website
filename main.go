@@ -10,7 +10,6 @@ import (
 )
 
 const (
-	DEBUG        = false
 	TemplatesDir = "templates"
 )
 
@@ -23,7 +22,7 @@ func main() {
 	// Declare rendering context variables
 	pageContext := &RenderContext{
 		TargetYear: 2023,
-		TargetDate: "4.20.69",
+		TargetDate: "??.??.23",
 	}
 
 	// Handle static asset requests
@@ -54,23 +53,18 @@ func handlePageRequests(layoutTplPath string, pageContext *RenderContext) func(h
 		targetTplPath := getTargetTplPath(r.URL.Path)
 
 		if is404(targetTplPath) {
-			if DEBUG {
-				log.Println(fmt.Sprintf("404: %q", targetTplPath))
-			}
+			log.Println(fmt.Sprintf("404: %q", targetTplPath))
 			http.NotFound(w, r)
 			return
 		}
 
-		tmpl, err := template.ParseFiles(layoutTplPath, targetTplPath)
+		tmpl, err := template.ParseFiles(layoutTplPath, filepath.Join(TemplatesDir, "nav"), targetTplPath)
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		if DEBUG {
-			log.Println(fmt.Sprintf("Serving %q (resolved to %q)", r.URL.Path, targetTplPath))
-		}
 		if err := tmpl.ExecuteTemplate(w, "layout", pageContext); err != nil {
 			log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -90,6 +84,13 @@ func getTargetTplPath(urlPath string) string {
 	return filepath.Join(TemplatesDir, cleanedPath)
 }
 
+var reservedPaths = []string{
+	"templates\\layout",
+	"templates/layout",
+	"templates\\nav",
+	"templates/nav",
+}
+
 func is404(targetTplPath string) bool {
 	info, err := os.Stat(targetTplPath)
 	if err != nil && os.IsNotExist(err) {
@@ -97,6 +98,12 @@ func is404(targetTplPath string) bool {
 	}
 	if info.IsDir() {
 		return true
+	}
+
+	for _, p := range reservedPaths {
+		if targetTplPath == p {
+			return true
+		}
 	}
 	return false
 }

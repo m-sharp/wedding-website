@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+// ToDo - Get flowery marquee image
+
+// Brand Colors
+$blue: #242582;
+$purple-ish: #553D67;
+$pink: #F64C72;
+$beige-light: #99738E;
+$beige-lighter: #EFF0EB;
+
+// Update Bulma's global variables
+$grey-dark: $purple-ish;
+$grey-light: $beige-light;
+$primary: $blue;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+$family-primary: "lora";
+$family-sans-serif: "lora";
+
+@import "../vendor/bulma/bulma.sass";
+
+/*General*/
+body  {
+  height: 100%;
+  margin: 0;
+}
+
+.navbar {
+  background-color: $purple-ish !important;
+}
+
+.navbar-item {
+  letter-spacing: 2px;
+}
+
+/* Footer */
+.footer {
+  padding-bottom: 3em;
+}
+
+footer .initials {
+  margin: auto;
+  border-bottom: 2px solid #757763;
+}
+
+/* Fonts */
+/* ToDo - get Linden's opinion */
+.lora {
+  font-family: 'Lora', serif;
+}
+
+.festive {
+  font-family: 'Festive', cursive;
+}
+
+.greatVibes {
+  font-family: 'Great Vibes', cursive;
+}

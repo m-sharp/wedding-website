@@ -1,3 +1,14 @@
 {{ define "body" }}
-<div class="center maintenance">We're Still Under Construction, Come Back Soon!</div>
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1 is-spaced">We're Getting Married!</h1>
+        <h2 class="subtitle is-3">But we're still working on it.</h2>
+        <div class="box content">
+            <span>Come back soon for actual content!</span>
+            <figure class="image is-3by5">
+                <img class="has-ratio" width="606" height="808" src="/static/assets/cute_kiss.gif" alt="Linden and Mike being cute">
+            </figure>
+        </div>
+    </div>
+</section>
 {{ end }}
