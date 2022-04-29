@@ -1,12 +1,9 @@
 {{ define "nav" }}
-<nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand is-size-4 greatVibes">
         <a class="navbar-item" href="https://lindenandmike.com">L & M 2023</a>
-        {{/*ToDo: Mobile menu*/}}
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
+        <a role="button" class="navbar-burger is-flex-touch is-justify-content-center is-align-items-center" aria-label="menu" aria-expanded="false" data-target="navbar">
+            <i class="fa-solid fa-bars"></i>
         </a>
     </div>
     <div id="navbar" class="navbar-menu">
@@ -15,5 +12,18 @@
             <a class="navbar-item" href="https://lindenandmike.com/our-story">Our Story</a>
         </div>
     </div>
+</nav>
+{{ end }}
+{{ define "nav2" }}
+<nav class="level is-primary is-mobile" role="navigation" aria-label="main navigation">
+    <p class="level-item has-text-centered">
+        <a class="link is-info" href="https://lindenandmike.com">Home</a>
+    </p>
+    <p class="level-item has-text-centered">
+        <span>L & M 2023</span>
+    </p>
+    <p class="level-item has-text-centered">
+        <a class="link is-info" href="https://lindenandmike.com/our-story">Our Story</a>
+    </p>
 </nav>
 {{ end }}

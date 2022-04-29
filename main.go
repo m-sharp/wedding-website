@@ -10,7 +10,6 @@ import (
 )
 
 const (
-	DEBUG        = false
 	TemplatesDir = "templates"
 )
 
@@ -54,9 +53,7 @@ func handlePageRequests(layoutTplPath string, pageContext *RenderContext) func(h
 		targetTplPath := getTargetTplPath(r.URL.Path)
 
 		if is404(targetTplPath) {
-			if DEBUG {
-				log.Println(fmt.Sprintf("404: %q", targetTplPath))
-			}
+			log.Println(fmt.Sprintf("404: %q", targetTplPath))
 			http.NotFound(w, r)
 			return
 		}
@@ -68,9 +65,6 @@ func handlePageRequests(layoutTplPath string, pageContext *RenderContext) func(h
 			return
 		}
 
-		if DEBUG {
-			log.Println(fmt.Sprintf("Serving %q (resolved to %q)", r.URL.Path, targetTplPath))
-		}
 		if err := tmpl.ExecuteTemplate(w, "layout", pageContext); err != nil {
 			log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)

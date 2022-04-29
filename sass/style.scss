@@ -1,25 +1,24 @@
 @charset "utf-8";
 
 // ToDo - Get flowery marquee image
-// ToDo - Get fonts - nice print for web text, fancy cursive for titles
-// ToDo - brand colors
 
-// Bulma Overrides
 // Brand Colors
-
 $blue: #242582;
-$brown: #553D67;
+$purple-ish: #553D67;
 $pink: #F64C72;
 $beige-light: #99738E;
 $beige-lighter: #EFF0EB;
 
 // Update Bulma's global variables
-$grey-dark: $brown;
+$grey-dark: $purple-ish;
 $grey-light: $beige-light;
 $primary: $blue;
 $link: $pink;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
+
+$family-primary: "lora";
+$family-sans-serif: "lora";
 
 @import "../vendor/bulma/bulma.sass";
 
@@ -29,29 +28,34 @@ body  {
   margin: 0;
 }
 
-.maintenance {
-  background-image: url(/static/assets/outdoor-wedding-background.jpg), linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.3));
-  background-blend-mode: overlay;
-  background-size: 100%;
-  font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
-  font-size: 3rem;
-  color: aliceblue;
+.navbar {
+  background-color: $purple-ish !important;
 }
 
-.center {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center
+.navbar-item {
+  letter-spacing: 2px;
 }
 
 /* Footer */
+.footer {
+  padding-bottom: 3em;
+}
+
 footer .initials {
   margin: auto;
-  letter-spacing: 2px;
   border-bottom: 2px solid #757763;
 }
 
-footer .date {
-  letter-spacing: 4px;
+/* Fonts */
+/* ToDo - get Linden's opinion */
+.lora {
+  font-family: 'Lora', serif;
+}
+
+.festive {
+  font-family: 'Festive', cursive;
+}
+
+.greatVibes {
+  font-family: 'Great Vibes', cursive;
 }
