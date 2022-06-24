@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/m-sharp/wedding-website/lib"
+	"github.com/m-sharp/wedding-website/lib/migrations"
 )
 
 const (
@@ -18,7 +22,28 @@ type RenderContext struct {
 	TargetYear int
 }
 
+// ToDo - pull in zap for logging
 func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// ToDo - grab via ENV VAR
+	// ToDo - group up email ENV VAR into config and pass around all the ENV data together
+	client, err := lib.NewDBClient(&ctx, "localhost", "root", "BirdSquad", 3306)
+	if err != nil {
+		println(err)
+		return
+	}
+	if err = client.CheckConnection(); err != nil {
+		println(fmt.Sprintf("Failed to connect to DB, bailing: %s", err.Error()))
+		return
+	}
+
+	if err := migrations.RunAll(ctx, client); err != nil {
+		println("Failed to run DB migrations, bailing: %s", err.Error())
+		return
+	}
+
 	// Declare rendering context variables
 	pageContext := &RenderContext{
 		TargetYear: 2023,
