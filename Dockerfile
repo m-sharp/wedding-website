@@ -22,18 +22,23 @@ RUN minify --type=css < css/main.css > /out/main.min.css
 RUN minify --type=js < js/main.js > /out/main.min.js
 
 FROM golang:1.17.8-alpine3.15 as website
-RUN mkdir /app
+ARG EMAIL_PASS
+ENV EMAILPASSWORD $EMAIL_PASS
+
+RUN mkdir /wedding-website
+WORKDIR /wedding-website
+RUN mkdir app/
 
 # ToDo - cut down on images to reduce image size. Maybe an outside CDN?
-COPY ./site_files/ /app/site_files
-COPY ./static/ /app/static
-COPY --from=builder /out/main.min.css /app/static/css
-COPY --from=builder /out/main.min.js /app/static/js
-COPY ./templates/ /app/templates
+COPY site_files/ site_files/
+COPY static/ static/
+COPY --from=builder /out/main.min.css static/css/
+COPY --from=builder /out/main.min.js static/js/
+COPY ./templates/ templates/
 
-COPY go.mod /app
-COPY main.go /app
-WORKDIR /app
+COPY go.mod .
+COPY main.go .
+COPY lib/ lib/
 
-RUN go build -o website .
-CMD ["/app/website"]
+RUN go build -o app/ ./...
+CMD ["app/wedding-website"]
