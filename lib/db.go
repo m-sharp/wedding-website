@@ -5,19 +5,51 @@ import (
 	"database/sql"
 	"fmt"
 
+	"go.uber.org/zap"
+
 	"github.com/go-sql-driver/mysql"
 )
 
 const (
 	dbName = "wedding"
+
+	openErr = "error opening mysql connection: %w"
 )
 
 type DBClient struct {
-	ctx *context.Context
-	Db  *sql.DB
+	ctx context.Context
+	log *zap.Logger
+
+	Db *sql.DB
 }
 
-func NewDBClient(ctx *context.Context, host, username, password string, port int) (*DBClient, error) {
+func NewDBClient(ctx context.Context, cfg *Config, log *zap.Logger) (*DBClient, error) {
+	log = log.Named("DBClient")
+
+	username, err := cfg.Get(DBUsername)
+	if err != nil {
+		return nil, fmt.Errorf(openErr, err)
+	}
+	password, err := cfg.Get(DBPass)
+	if err != nil {
+		return nil, fmt.Errorf(openErr, err)
+	}
+	host, err := cfg.Get(DBHost)
+	if err != nil {
+		return nil, fmt.Errorf(openErr, err)
+	}
+	port, err := cfg.Get(DBPort)
+	if err != nil {
+		return nil, fmt.Errorf(openErr, err)
+	}
+
+	log = log.With(
+		zap.String("Username", username),
+		zap.String("Host", host),
+		zap.String("Port", port),
+		zap.String("Database", dbName),
+	)
+
 	config := &mysql.Config{
 		User:      username,
 		Passwd:    password,
@@ -27,36 +59,16 @@ func NewDBClient(ctx *context.Context, host, username, password string, port int
 		ParseTime: true,
 	}
 
+	log.Debug("Dialing mysql DB")
 	db, err := sql.Open("mysql", config.FormatDSN())
 	if err != nil {
-		return nil, fmt.Errorf("error opening mysql connection: %w", err)
+		return nil, fmt.Errorf(openErr, err)
 	}
-	return &DBClient{ctx: ctx, Db: db}, nil
+	return &DBClient{ctx: ctx, log: log, Db: db}, nil
 }
 
-//func (d *DBClient) Execute(ctx context.Context, query string, args ...interface{}) error {
-//	if _, err := d.Db.ExecContext(ctx, query, args...); err != nil {
-//		return errors.New(fmt.Sprintf("failed to execute query %q: %s", query, err))
-//	}
-//	return nil
-//}
-//
-//func (d *DBClient) Query(ctx context.Context, query string, args ...interface{}) (int, error) {
-//	rows, err := d.Db.QueryContext(ctx, query, args...)
-//	if err != nil {
-//		return 0, err
-//	}
-//	defer func(rows *sql.Rows) {
-//		err := rows.Close()
-//		if err != nil {
-//			println("Error closing Rows: %s", err)
-//		}
-//	}(rows)
-//	// ToDo - query row context vs query context? Either way, needs to be pluggable for use downstream
-//	return 0, nil
-//}
-
 func (d *DBClient) CheckConnection() error {
+	d.log.Debug("Pinging DB for health check...")
 	return d.Db.Ping()
 }
 
@@ -71,11 +83,4 @@ func NewDBError(query string, innerErr error) *DBError {
 
 func (d *DBError) Error() string {
 	return fmt.Sprintf("failed to execute query %q: %s", d.query, d.inner)
-}
-
-func CloseRows(rows *sql.Rows) {
-	err := rows.Close()
-	if err != nil {
-		println("Error closing Rows: %s", err)
-	}
 }

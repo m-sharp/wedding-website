@@ -25,6 +25,18 @@ FROM golang:1.17.8-alpine3.15 as website
 ARG EMAIL_PASS
 ENV EMAILPASSWORD $EMAIL_PASS
 
+ARG DB_HOST
+ENV DBHOST $DB_HOST
+
+ARG DB_USER
+ENV DBUSER $DB_USER
+
+ARG DB_PASS
+ENV DBPASSWORD $DB_PASS
+
+ARG DB_PORT
+ENV DBPORT $DB_PORT
+
 RUN mkdir /wedding-website
 WORKDIR /wedding-website
 RUN mkdir app/
@@ -39,6 +51,7 @@ COPY ./templates/ templates/
 COPY go.mod .
 COPY main.go .
 COPY lib/ lib/
+COPY vendor/ vendor/
 
 RUN go build -o app/ ./...
 CMD ["app/wedding-website"]

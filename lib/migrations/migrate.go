@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/m-sharp/wedding-website/lib"
 )
 
@@ -27,8 +29,10 @@ type Migration interface {
 	Downgrade(ctx context.Context, client *lib.DBClient) error
 }
 
-func RunAll(ctx context.Context, client *lib.DBClient) error {
-	println("Running DB migrations...")
+func RunAll(ctx context.Context, client *lib.DBClient, log *zap.Logger) error {
+	log = log.Named("Migrator")
+	log.Info("Running DB migrations...")
+
 	startCount, err := GetCurrentMigrationCount(ctx, client)
 	if err != nil {
 		return err
@@ -40,33 +44,35 @@ func RunAll(ctx context.Context, client *lib.DBClient) error {
 			continue
 		}
 
-		println(fmt.Sprintf("Running migration #%v", i))
+		log.Debug("Running migration", zap.Int("Migration Number", i))
 		if err := migration.Upgrade(ctx, client); err != nil {
-			println(fmt.Sprintf("Failed to run migration #%v: %s", i, err))
-			if innerErr := rollback(ctx, client, ran...); innerErr != nil {
-				println(fmt.Sprintf("Failed to rollback migrations: %s", err))
+			log.Error("Error running migration", zap.Int("Migration Number", i), zap.Error(err))
+			if innerErr := rollback(ctx, client, log, ran...); innerErr != nil {
+				log.Error("Failed to rollback migrations", zap.Int("Migration Number", i), zap.Error(err))
 			}
 			return err
 		}
 		ran = append(ran, migration)
+
 		if err := incrementMigrationTable(ctx, client); err != nil {
-			println(fmt.Sprintf("Failed to increment migration table for migration %v: %s", i, err))
+			log.Error("Failed to increment migration table", zap.Int("Migration Number", i), zap.Error(err))
 			return err
 		}
 	}
-	println(fmt.Sprintf("Finished running migrations - Ran #%v migrations", len(ran)))
+	log.Info("Finished running migrations", zap.Int("Run Count", len(ran)))
 	return nil
 }
 
-func rollback(ctx context.Context, client *lib.DBClient, toRollback ...Migration) error {
+func rollback(ctx context.Context, client *lib.DBClient, log *zap.Logger, toRollback ...Migration) error {
 	for i, migration := range toRollback {
-		println(fmt.Sprintf("Rolling back migration #%v", i))
+		log = log.With(zap.Int("Migration Number", i))
+		log.Debug("Rolling back migration")
 		if err := migration.Downgrade(ctx, client); err != nil {
 			return errors.New(fmt.Sprintf("Failed to roll back migration #%v: %s", i, err))
 		}
 
 		if err := decrementMigrationTable(ctx, client); err != nil {
-			println(fmt.Sprintf("Failed to decrement migration table: %s", err))
+			log.Error("Failed to decrement migration table", zap.Error(err))
 			return err
 		}
 	}

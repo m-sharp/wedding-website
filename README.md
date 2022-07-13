@@ -13,10 +13,17 @@ Simple static website powered by Go for our wedding
 
 - Build Docker images:
   - `docker build -t registry.digitalocean.com/harp-do-registry/wedding-website .`
-  - `docker build -t wedding-website-db ./mysql/`
+  - `docker build --build-arg PASS=REDACTED -t wedding-website-db ./mysql/`
 - Run docker images:
-  - `docker run --detach --name=wedding-website-db --publish 6603:3306 wedding-website-db`
-  - `docker run -p 8080:8081 -it registry.digitalocean.com/harp-do-registry/wedding-website`
+  - ```
+    docker run -p 8080:8081 -it \
+      --env EMAILPASSWORD=REDACTED \
+      --env DBHOST=host.docker.internal \
+      --env DBUSER=root \
+      --env DBPASSWORD=REDACTED \
+      --env DBPORT=3306 registry.digitalocean.com/harp-do-registry/wedding-website
+    ```
+  - `docker run --detach --name=wedding-website-db --publish 3306:3306 wedding-website-db`
 - Push to DigitalOcean: `docker login registry.digitalocean.com && docker push registry.digitalocean.com/harp-do-registry/wedding-website:latest`
 
 Commands for running builds by hand:
@@ -28,7 +35,11 @@ Commands for running builds by hand:
 
 ## Required Environment Variables
 
-- `EmailPassword` - App password for email account.
+- `EMAILPASSWORD` - App password for email account.
+- `DBHOST` - Hostname of database.
+- `DBUSER` - Username to connect to the database with.
+- `DBPASSWORD` - Password to connect to the database with.
+- `DBPORT` - Port to connect to database on.
 
 ## Acknowledgements
 

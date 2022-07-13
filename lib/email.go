@@ -4,7 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"net/smtp"
-	"os"
+	"strconv"
+
+	"go.uber.org/zap"
 )
 
 const (
@@ -12,8 +14,6 @@ const (
 
 	GMailHost = "smtp.gmail.com"
 	GMailPort = 587
-
-	passwordEnvVar = "EMAILPASSWORD"
 )
 
 type EmailFailedError struct {
@@ -28,15 +28,24 @@ func (e *EmailFailedError) Unwrap() error {
 	return e.inner
 }
 
-func SendEmail(message string, to ...string) error {
+func SendEmail(cfg *Config, log *zap.Logger, message string, to ...string) error {
 	if len(to) < 1 {
 		return &EmailFailedError{inner: errors.New("no To addresses specified")}
 	}
 
-	password, err := getPass()
+	password, err := cfg.Get(EmailPass)
 	if err != nil {
 		return &EmailFailedError{inner: err}
 	}
+
+	log = log.Named("Emailer")
+	log.Info(
+		"Sending Email",
+		zap.String("From", WeddingAddress),
+		zap.String("SMTP Host", GMailHost),
+		zap.String("SMTP Port", strconv.Itoa(GMailPort)),
+		zap.Any("To", to),
+	)
 	if err = smtp.SendMail(
 		fmt.Sprintf("%s:%v", GMailHost, GMailPort),
 		smtp.PlainAuth("", WeddingAddress, password, GMailHost),
@@ -46,13 +55,6 @@ func SendEmail(message string, to ...string) error {
 	); err != nil {
 		return &EmailFailedError{inner: err}
 	}
-	return nil
-}
 
-func getPass() (string, error) {
-	value, ok := os.LookupEnv(passwordEnvVar)
-	if !ok {
-		return "", fmt.Errorf("ENVVAR for %q not found", passwordEnvVar)
-	}
-	return value, nil
+	return nil
 }

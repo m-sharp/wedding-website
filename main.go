@@ -9,11 +9,14 @@ import (
 	"os"
 	"path/filepath"
 
+	"go.uber.org/zap"
+
 	"github.com/m-sharp/wedding-website/lib"
 	"github.com/m-sharp/wedding-website/lib/migrations"
 )
 
 const (
+	Port         = "8081"
 	TemplatesDir = "templates"
 )
 
@@ -22,32 +25,24 @@ type RenderContext struct {
 	TargetYear int
 }
 
-// ToDo - pull in zap for logging
+var (
+	// Rendering context variables
+	pageContext = &RenderContext{
+		TargetYear: 2023,
+		TargetDate: "10.7.23",
+	}
+)
+
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	// ToDo - grab via ENV VAR
-	// ToDo - group up email ENV VAR into config and pass around all the ENV data together
-	client, err := lib.NewDBClient(&ctx, "localhost", "root", "BirdSquad", 3306)
-	if err != nil {
-		println(err)
-		return
-	}
-	if err = client.CheckConnection(); err != nil {
-		println(fmt.Sprintf("Failed to connect to DB, bailing: %s", err.Error()))
-		return
-	}
+	cfg := getCfg()
+	logger := getLogger(cfg)
+	client := getDBClient(ctx, cfg, logger)
 
-	if err := migrations.RunAll(ctx, client); err != nil {
-		println("Failed to run DB migrations, bailing: %s", err.Error())
-		return
-	}
-
-	// Declare rendering context variables
-	pageContext := &RenderContext{
-		TargetYear: 2023,
-		TargetDate: "10.7.23",
+	if err := migrations.RunAll(ctx, client, logger); err != nil {
+		log.Fatal("Failed to run DB migrations", zap.Error(err))
 	}
 
 	// Handle static asset requests
@@ -63,35 +58,80 @@ func main() {
 
 	// Handle other requests
 	layoutTplPath := filepath.Join(TemplatesDir, "layout")
-	http.HandleFunc("/", handlePageRequests(layoutTplPath, pageContext))
+	http.HandleFunc("/", handlePageRequests(logger, layoutTplPath, pageContext))
 
-	//Start the web server, set the port to listen to 8080. Without a path it assumes localhost
-	//Print any errors from starting the webserver using fmt
-	log.Println("Listening on port 8081")
-	if err := http.ListenAndServe(":8081", nil); err != nil {
-		log.Panic(fmt.Errorf("stopped listening with error: %w", err).Error())
+	// Start the web server
+	logger.Info("Now listening!", zap.String("Port", Port))
+	if err := http.ListenAndServe(fmt.Sprintf(":%v", Port), nil); err != nil {
+		logger.Panic("Server stopped listening", zap.Error(err))
 	}
 }
 
-func handlePageRequests(layoutTplPath string, pageContext *RenderContext) func(http.ResponseWriter, *http.Request) {
+func getCfg() *lib.Config {
+	cfg, err := lib.NewConfig()
+	if err != nil {
+		log.Fatalf("Error creating Config: %s", err.Error())
+	}
+
+	return cfg
+}
+
+func getLogger(cfg *lib.Config) *zap.Logger {
+	dev, err := cfg.Get(lib.Development)
+	if err != nil {
+		dev = "false"
+	}
+
+	var logger *zap.Logger
+	if dev == "true" {
+		logger, err = zap.NewDevelopment()
+
+	} else {
+		logger, err = zap.NewProduction()
+	}
+	if err != nil {
+		log.Fatalf("Error creating Logger: %s", err.Error())
+	}
+
+	return logger
+}
+
+func getDBClient(ctx context.Context, cfg *lib.Config, log *zap.Logger) *lib.DBClient {
+	client, err := lib.NewDBClient(ctx, cfg, log)
+	if err != nil {
+		log.Fatal("Error creating DB client", zap.Error(err))
+	}
+	if err = client.CheckConnection(); err != nil {
+		log.Fatal("DB connection check failed", zap.Error(err))
+	}
+
+	return client
+}
+
+func handlePageRequests(
+	log *zap.Logger,
+	layoutTplPath string,
+	pageContext *RenderContext,
+) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		targetTplPath := getTargetTplPath(r.URL.Path)
+		log = log.With(zap.String("Path", targetTplPath))
 
 		if is404(targetTplPath) {
-			log.Println(fmt.Sprintf("404: %q", targetTplPath))
+			log.Info("404 Request")
 			http.NotFound(w, r)
 			return
 		}
 
 		tmpl, err := template.ParseFiles(layoutTplPath, filepath.Join(TemplatesDir, "nav"), targetTplPath)
 		if err != nil {
-			log.Println(err.Error())
+			log.Error("Error parsing template files", zap.Error(err))
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
 		if err := tmpl.ExecuteTemplate(w, "layout", pageContext); err != nil {
-			log.Println(err.Error())
+			log.Error("Error executing template files", zap.Error(err))
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	}
