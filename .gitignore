@@ -15,5 +15,5 @@
 .idea/
 
 # Build assets
-static/css/main.min.css
-static/js/main.min.js
+web/static/css/main.min.css
+web/static/js/main.min.js

@@ -41,12 +41,9 @@ RUN mkdir /wedding-website
 WORKDIR /wedding-website
 RUN mkdir app/
 
-# ToDo - cut down on images to reduce image size. Maybe an outside CDN?
-COPY site_files/ site_files/
-COPY static/ static/
-COPY --from=builder /out/main.min.css static/css/
-COPY --from=builder /out/main.min.js static/js/
-COPY ./templates/ templates/
+COPY web/ web/
+COPY --from=builder /out/main.min.css web/static/css/
+COPY --from=builder /out/main.min.js web/static/js/
 
 COPY go.mod .
 COPY main.go .

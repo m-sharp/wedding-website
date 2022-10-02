@@ -30,8 +30,8 @@ Commands for running builds by hand:
 - SASS Build:
   - `sass sass/style.scss sass/main.css`
 - Minify JS and CSS:
-  - `docker run -i tdewolff/minify minify --type=css < sass/main.css > static/css/main.min.css 2>&1`
-  - `docker run -i tdewolff/minify minify --type=js < js/main.js > static/js/main.min.js 2>&1`
+  - `docker run -i tdewolff/minify minify --type=css < sass/main.css > web/static/css/main.min.css 2>&1`
+  - `docker run -i tdewolff/minify minify --type=js < js/main.js > web/static/js/main.min.js 2>&1`
 
 ## Required Environment Variables
 
