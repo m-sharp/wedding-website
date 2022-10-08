@@ -22,12 +22,21 @@ $family-sans-serif: "lora";
 
 @import "bulma/bulma.sass";
 
-/*General*/
+/* General */
 body  {
   height: 100%;
   margin: 0;
 }
 
+section {
+  background: coral;
+}
+
+footer {
+  background: silver;
+}
+
+/* Nav Bar */
 .navbar {
   background-color: $purple-ish !important;
 }
@@ -47,13 +56,8 @@ footer .initials {
 }
 
 /* Fonts */
-/* ToDo - get Linden's opinion */
 .lora {
   font-family: 'Lora', serif;
-}
-
-.festive {
-  font-family: 'Festive', cursive;
 }
 
 .greatVibes {

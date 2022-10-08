@@ -17,8 +17,12 @@ const (
 
 var (
 	TemplatesDir  = filepath.FromSlash(filepath.Join("web", "templates"))
-	LayoutTplPath = filepath.Join(TemplatesDir, "layout")
-	NavTplPath    = filepath.Join(TemplatesDir, "nav")
+	TemplateFiles = []string{
+		filepath.Join(TemplatesDir, "layout"),
+		filepath.Join(TemplatesDir, "nav"),
+		filepath.Join(TemplatesDir, "analytics"),
+		filepath.Join(TemplatesDir, "typography"),
+	}
 
 	StaticDir    = filepath.FromSlash(filepath.Join("web", "static"))
 	SiteFilesDir = filepath.FromSlash(filepath.Join("web", "site_files"))
@@ -73,17 +77,18 @@ func (s *Server) Serve() error {
 }
 
 func (s *Server) handlePageRequests(w http.ResponseWriter, r *http.Request) {
-	targetTplPath := s.getTargetTplPath(r.URL.Path)
-	log := s.log.With(zap.String("Path", targetTplPath))
+	targetPage := filepath.Clean(r.URL.Path)
+	targetPage = filepath.Join(TemplatesDir, s.doRedirects(targetPage))
+	log := s.log.With(zap.String("Path", targetPage))
 	log.Debug("Requested template path")
 
-	if s.is404(targetTplPath) {
+	if s.is404(targetPage) {
 		log.Info("404 Request")
 		http.NotFound(w, r)
 		return
 	}
 
-	tmpl, err := template.ParseFiles(LayoutTplPath, NavTplPath, targetTplPath)
+	tmpl, err := template.ParseFiles(append(TemplateFiles, targetPage)...)
 	if err != nil {
 		log.Error("Error parsing template files", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -96,20 +101,13 @@ func (s *Server) handlePageRequests(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) getTargetTplPath(urlPath string) string {
-	s.log.Debug("Incoming path", zap.String("urlPath", urlPath))
-	cleanedPath := filepath.Clean(urlPath)
-	if cleanedPath == "/" {
-		cleanedPath = "/home"
+func (s *Server) doRedirects(urlPath string) string {
+	switch urlPath {
+	case "/":
+		urlPath = "/home"
 	}
-	s.log.Debug("Cleaned path", zap.String("cleanedPath", cleanedPath))
 
-	return filepath.Join(TemplatesDir, cleanedPath)
-}
-
-var reservedPaths = []string{
-	NavTplPath,
-	LayoutTplPath,
+	return urlPath
 }
 
 func (s *Server) is404(targetTplPath string) bool {
@@ -122,7 +120,7 @@ func (s *Server) is404(targetTplPath string) bool {
 		return true
 	}
 
-	for _, p := range reservedPaths {
+	for _, p := range TemplateFiles {
 		if targetTplPath == p {
 			s.log.Debug("Reserved Path requested", zap.String("Path", targetTplPath))
 			return true
