@@ -1,109 +1,82 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
+	"context"
 	"log"
-	"net/http"
-	"os"
-	"path/filepath"
+
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+
+	"github.com/m-sharp/wedding-website/lib"
+	"github.com/m-sharp/wedding-website/lib/migrations"
+	"github.com/m-sharp/wedding-website/web"
 )
 
-const (
-	TemplatesDir = "templates"
-)
-
-type RenderContext struct {
-	TargetDate string
-	TargetYear int
-}
-
-func main() {
-	// Declare rendering context variables
-	pageContext := &RenderContext{
+var (
+	// Rendering context variables
+	pageContext = &web.RenderContext{
 		TargetYear: 2023,
 		TargetDate: "10.7.23",
 	}
+)
 
-	// Handle static asset requests
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-	// Handle special files
-	http.HandleFunc("/robots.txt", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./site_files/robots.txt")
-	})
-	http.HandleFunc("/sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./site_files/sitemap.xml")
-	})
+	cfg := getCfg()
+	logger := getLogger(cfg)
 
-	// Handle other requests
-	layoutTplPath := filepath.Join(TemplatesDir, "layout")
-	http.HandleFunc("/", handlePageRequests(layoutTplPath, pageContext))
+	client := getDBClient(ctx, cfg, logger)
+	if err := migrations.RunAll(ctx, client, logger); err != nil {
+		log.Fatal("Failed to run DB migrations", zap.Error(err))
+	}
 
-	//Start the web server, set the port to listen to 8080. Without a path it assumes localhost
-	//Print any errors from starting the webserver using fmt
-	log.Println("Listening on port 8081")
-	if err := http.ListenAndServe(":8081", nil); err != nil {
-		log.Panic(fmt.Errorf("stopped listening with error: %w", err).Error())
+	server := web.NewWebServer(logger, pageContext)
+	if err := server.Serve(); err != nil {
+		logger.Panic("Server stopped listening", zap.Error(err))
 	}
 }
 
-func handlePageRequests(layoutTplPath string, pageContext *RenderContext) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		targetTplPath := getTargetTplPath(r.URL.Path)
-
-		if is404(targetTplPath) {
-			log.Println(fmt.Sprintf("404: %q", targetTplPath))
-			http.NotFound(w, r)
-			return
-		}
-
-		tmpl, err := template.ParseFiles(layoutTplPath, filepath.Join(TemplatesDir, "nav"), targetTplPath)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		if err := tmpl.ExecuteTemplate(w, "layout", pageContext); err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
+func getCfg() *lib.Config {
+	cfg, err := lib.NewConfig()
+	if err != nil {
+		log.Fatalf("Error creating Config: %s", err.Error())
 	}
+
+	return cfg
 }
 
-func getTargetTplPath(urlPath string) string {
-	cleanedPath := filepath.Clean(urlPath)
-	switch cleanedPath {
-	case "\\":
-		cleanedPath = "\\home"
-	case "/":
-		cleanedPath = "/home"
-	default:
+func getLogger(cfg *lib.Config) *zap.Logger {
+	dev, err := cfg.Get(lib.Development)
+	if err != nil {
+		dev = "false"
 	}
-	return filepath.Join(TemplatesDir, cleanedPath)
+
+	var logger *zap.Logger
+	if dev == "true" {
+		logger, err = zap.NewDevelopment()
+
+	} else {
+		conf := zap.NewProductionConfig()
+		conf.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+		logger, err = conf.Build()
+	}
+	if err != nil {
+		log.Fatalf("Error creating Logger: %s", err.Error())
+	}
+
+	return logger
 }
 
-var reservedPaths = []string{
-	"templates\\layout",
-	"templates/layout",
-	"templates\\nav",
-	"templates/nav",
-}
-
-func is404(targetTplPath string) bool {
-	info, err := os.Stat(targetTplPath)
-	if err != nil && os.IsNotExist(err) {
-		return true
+func getDBClient(ctx context.Context, cfg *lib.Config, log *zap.Logger) *lib.DBClient {
+	client, err := lib.NewDBClient(ctx, cfg, log)
+	if err != nil {
+		log.Fatal("Error creating DB client", zap.Error(err))
 	}
-	if info.IsDir() {
-		return true
+	if err = client.CheckConnection(); err != nil {
+		log.Fatal("DB connection check failed", zap.Error(err))
 	}
 
-	for _, p := range reservedPaths {
-		if targetTplPath == p {
-			return true
-		}
-	}
-	return false
+	return client
 }

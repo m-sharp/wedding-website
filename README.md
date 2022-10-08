@@ -11,22 +11,35 @@ Simple static website powered by Go for our wedding
 
 ## Dev Reference
 
-- Build Docker image - `docker build -t registry.digitalocean.com/harp-do-registry/wedding-website .`
-- Run docker image:
-  - In foreground: `docker run -p 8080:8081 -it registry.digitalocean.com/harp-do-registry/wedding-website:<VERSION>`
-  - In background: `docker run -p 8080:8081 -d registry.digitalocean.com/harp-do-registry/wedding-website:<VERSION>`
+- Build Docker images:
+  - `docker build -t registry.digitalocean.com/harp-do-registry/wedding-website .`
+  - `docker build --build-arg PASS=REDACTED -t wedding-website-db ./mysql/`
+- Run docker images:
+  - ```
+    docker run -p 8080:8081 -it \
+      --env EMAILPASSWORD=REDACTED \
+      --env DBHOST=host.docker.internal \
+      --env DBUSER=root \
+      --env DBPASSWORD=REDACTED \
+      --env DBPORT=3306 registry.digitalocean.com/harp-do-registry/wedding-website
+    ```
+  - `docker run --detach --name=wedding-website-db --publish 3306:3306 wedding-website-db`
 - Push to DigitalOcean: `docker login registry.digitalocean.com && docker push registry.digitalocean.com/harp-do-registry/wedding-website:latest`
 
 Commands for running builds by hand:
 - SASS Build:
   - `sass sass/style.scss sass/main.css`
 - Minify JS and CSS:
-  - `docker run -i tdewolff/minify minify --type=css < sass/main.css > static/css/main.min.css 2>&1`
-  - `docker run -i tdewolff/minify minify --type=js < js/main.js > static/js/main.min.js 2>&1`
+  - `docker run -i tdewolff/minify minify --type=css < sass/main.css > web/static/css/main.min.css 2>&1`
+  - `docker run -i tdewolff/minify minify --type=js < js/main.js > web/static/js/main.min.js 2>&1`
 
 ## Required Environment Variables
 
-- `EmailPassword` - App password for email account.
+- `EMAILPASSWORD` - App password for email account.
+- `DBHOST` - Hostname of database.
+- `DBUSER` - Username to connect to the database with.
+- `DBPASSWORD` - Password to connect to the database with.
+- `DBPORT` - Port to connect to database on.
 
 ## Acknowledgements
 
