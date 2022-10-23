@@ -43,4 +43,4 @@ Commands for running builds by hand:
 
 ## Acknowledgements
 
-- Backgrounds from [Subtle Patterns](https://www.toptal.com/designers/subtlepatterns/)
+- Flower asset purchased via Flower Moxie and Corjl
