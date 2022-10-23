@@ -13,7 +13,7 @@ RUN tar -xzf dart-sass-1.53.0-linux-x64.tar.gz
 
 # Copy build assets
 COPY ./sass/bulma/ css/bulma/
-COPY ./sass/style.scss css/
+COPY ./sass/ css/
 COPY ./js/ js/
 
 # Build Sass & Minify
