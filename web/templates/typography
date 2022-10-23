@@ -1,0 +1,8 @@
+{{ define "typography" }}
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/5c0b17ed4e.js" crossorigin="anonymous"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora&display=swap" rel="stylesheet">
+{{ end }}

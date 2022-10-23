@@ -1,59 +1,37 @@
 @charset "utf-8";
 
-// ToDo - Get flowery marquee image
-
-// Brand Colors
-$blue: #242582;
-$purple-ish: #553D67;
+// Colors
+$blue: #192A53;
+$dark-blue: #20233D;
 $pink: #F64C72;
-$beige-light: #99738E;
-$beige-lighter: #EFF0EB;
+$burgundy: #4d182e;
+$gold: #EEE8AA;
 
-// Update Bulma's global variables
-$grey-dark: $purple-ish;
-$grey-light: $beige-light;
-$primary: $blue;
-$link: $pink;
-$widescreen-enabled: false;
-$fullhd-enabled: false;
-
+// Bulma Variable Overrides
 $family-primary: "lora";
 $family-sans-serif: "lora";
+$primary: $burgundy;
+$link: $pink;
+$navbar-background-color: $burgundy;
+$navbar-item-color: $gold;
+$navbar-item-hover-background-color: $burgundy;
+$footer-background-color: $burgundy;
+$footer-color: $gold;
+$footer-padding: 2rem 0 0.5rem;
 
 @import "bulma/bulma.sass";
+@import "layout.scss";
+@import "home.scss";
 
-/*General*/
-body  {
-  height: 100%;
-  margin: 0;
-}
-
-.navbar {
-  background-color: $purple-ish !important;
-}
-
-.navbar-item {
-  letter-spacing: 2px;
-}
-
-/* Footer */
-.footer {
-  padding-bottom: 3em;
-}
-
-footer .initials {
-  margin: auto;
-  border-bottom: 2px solid #757763;
+/* General */
+a:hover {
+  color: gold !important;
+  text-decoration: underline;
 }
 
 /* Fonts */
-/* ToDo - get Linden's opinion */
 .lora {
   font-family: 'Lora', serif;
-}
-
-.festive {
-  font-family: 'Festive', cursive;
 }
 
 .greatVibes {

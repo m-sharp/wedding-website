@@ -16,7 +16,7 @@ var (
 	// Rendering context variables
 	pageContext = &web.RenderContext{
 		TargetYear: 2023,
-		TargetDate: "10.7.23",
+		TargetDate: "10/7/23",
 	}
 )
 

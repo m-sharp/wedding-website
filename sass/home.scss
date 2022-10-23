@@ -1,0 +1,40 @@
+#home .title {
+  text-align: center;
+}
+
+#home .content h1, #home .content h2, #home .content h3, #home .content h4,
+#home .content span, #home .content p, #home .title {
+  color: $gold;
+}
+
+#home .homeGif img {
+  width: 20em;
+}
+
+#home .infoRow {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  padding-bottom: 1em;
+  margin: 0.5em;
+}
+
+#home .infoRow .icon-text {
+  align-items: baseline;
+  align-content: center;
+}
+
+#home .infoRow .icon-text .icon:not(:last-child) {
+  margin-right: 0.5em;
+}
+
+#home hr {
+  background-color: #eee8aa;
+  margin: 1em auto;
+  width: 25%;
+
+  @include touch {
+    width: 50%;
+  }
+}

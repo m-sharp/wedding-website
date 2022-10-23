@@ -4,35 +4,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Mike & Linden {{ .TargetYear }}</title>
+        <title>Linden & Mike {{ .TargetYear }}</title>
         <link rel="icon" type="image/x-icon" href="/favicon.ico">
         <link rel="stylesheet" href="/static/css/main.min.css">
         <script src="/static/js/jquery-3.6.0.min.js"></script>
         <script src="/static/js/main.min.js"></script>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q135MHTHK3"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-Q135MHTHK3');
-        </script>
-        <!-- FontAwesome Icons -->
-        <script src="https://kit.fontawesome.com/5c0b17ed4e.js" crossorigin="anonymous"></script>
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Lora&family=Festive&family=Great+Vibes&display=swap" rel="stylesheet">
+        {{ template "analytics" }}
+        {{ template "typography" }}
     </head>
     <body>
         {{ template "nav" }}
         {{ template "body" }}
     </body>
-    <footer class="footer greatVibes">
-        <div class="content has-text-centered is-flex is-flex-direction-column">
+    <footer class="footer greatVibes is-flex is-flex-direction-row">
+        <figure>
+            <img class="flowers" src="/static/assets/navy-and-wine-flowers-transparent.png" alt="Navy and Wine flowers">
+        </figure>
+        <div class="footerLogo content has-text-centered is-flex is-flex-direction-column">
             <span class="initials block is-size-2 pb-4">L & M</span>
-            <span class="date block is-size-3">{{ .TargetDate }}</span>
+            <span class="date is-size-4">{{ .TargetDate }}</span>
         </div>
+        <figure>
+            <img class="flowers mirrored" src="/static/assets/navy-and-wine-flowers-transparent.png" alt="Navy and Wine flowers">
+        </figure>
     </footer>
 </html>
 {{ end }}

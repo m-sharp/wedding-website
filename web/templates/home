@@ -1,14 +1,43 @@
 {{ define "body" }}
-<section class="section">
-    <div class="container">
-        <h1 class="title is-1 is-spaced">We're Getting Married!</h1>
-        <h2 class="subtitle is-3">But we're still working on it.</h2>
-        <div class="box content">
-            <span>Come back soon for actual content!</span>
-            <figure class="image is-3by5">
-                <img class="has-ratio" width="606" height="808" src="/static/assets/cute_kiss.gif" alt="Linden and Mike being cute">
+    <section class="section" id="home">
+        <div class="container">
+            <h1 class="title is-1 is-spaced greatVibes">We're Getting Married!</h1>
+            <div class="content is-flex is-flex-direction-column">
+                <div class="infoRow">
+                    <div class="icon-text is-size-3">
+                      <span class="icon has-text-info">
+                        <i class="fa-solid fa-calendar"></i>
+                      </span>
+                        <span class="greatVibes">When</span>
+                    </div>
+                    <span class="spacer">&nbsp;</span>
+                    <span class="is-flex is-align-items-flex-end">Saturday October 7, 2023, at 5:30pm</span>
+                </div>
+                <hr/>
+                <div class="infoRow">
+                    <div class="icon-text is-size-3">
+                      <span class="icon has-text-info">
+                        <i class="fa-solid fa-map"></i>
+                      </span>
+                      <span class="greatVibes">Where</span>
+                    </div>
+                    <span class="spacer">&nbsp;</span>
+                    <div class="is-flex is-flex-direction-column is-align-items-center">
+                        <a href="https://www.kentislandresort.com/">Kent Island Resort</a>
+                        <a class="is-flex is-flex-direction-column" href="https://goo.gl/maps/yakcvKLDJNpuBMNU9">
+                            <span>500 Kent Manor Drive</span>
+                            <span>Stevensville, MD 21666</span>
+                        </a>
+                    </div>
+                </div>
+                <hr/>
+                <div class="infoRow">
+                    <p>More information and formal invitations to follow.</p>
+                </div>
+            </div>
+            <figure class="homeGif is-flex is-justify-content-center">
+                <img src="/static/assets/cute_kiss.gif" alt="Linden and Mike being cute">
             </figure>
         </div>
-    </div>
-</section>
+    </section>
 {{ end }}

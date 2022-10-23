@@ -1,0 +1,75 @@
+body  {
+  height: 100%;
+  margin: 0;
+}
+
+section {
+  background: $dark-blue;
+}
+
+.spacer {
+  width: 1em;
+}
+
+.container {
+  border-radius: 10px;
+}
+
+/* Nav */
+.navbar-item {
+  letter-spacing: 2px;
+}
+
+.navbar a:hover {
+  text-decoration: none !important;
+}
+
+/* Footer */
+.footer {
+  overflow: hidden;
+  max-height: 14em;
+  justify-content: space-between;
+  align-items: center;
+
+  @include touch {
+    justify-content: space-evenly;
+  }
+}
+
+.footer .footerLogo {
+  min-width: 8rem;
+}
+
+.footer .footerLogo .initials {
+  margin: 0 auto 0.5em;
+  border-bottom: 2px solid $gold;
+}
+
+.footer .date {
+  letter-spacing: 2px;
+}
+
+$flowerLeft: -80px;
+
+.footer img.mirrored {
+  transform: scaleX(-1);
+  left: $flowerLeft*-1;
+
+  @include touch {
+    display: block;
+    width: 19em;
+    left: 5px;
+    top: -10px;
+  }
+}
+
+.footer .flowers {
+  width: 25em;
+  position: relative;
+  left: $flowerLeft;
+  top: -5px;
+
+  @include touch {
+    display: none;
+  }
+}
