@@ -18,6 +18,14 @@
   justify-content: center;
   padding-bottom: 1em;
   margin: 0.5em;
+
+  @include mobile {
+    justify-content: space-between;
+  }
+}
+
+#home .infoRow p {
+  text-align: center;
 }
 
 #home .infoRow .icon-text {
@@ -32,7 +40,10 @@
 #home hr {
   background-color: #eee8aa;
   margin: 1em auto;
-  width: 25%;
+
+  @include desktop {
+    width: 25%;
+  }
 
   @include touch {
     width: 50%;
