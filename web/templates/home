@@ -12,9 +12,9 @@
                     </div>
                     <span class="spacer">&nbsp;</span>
                     <div class="is-flex is-flex-direction-column is-align-items-center">
-                        <span>Saturday October 7, 2023</span>
+                        <span>October 7, 2023</span>
                         <span>Ceremony at 5:30pm</span>
-                        <span>Dinner and dancing to follow</span>
+                        <span>Dinner to follow</span>
                     </div>
                 </div>
                 <hr/>
@@ -28,7 +28,7 @@
                     <span class="spacer">&nbsp;</span>
                     <div class="is-flex is-flex-direction-column is-align-items-center">
                         <a href="https://www.kentislandresort.com/">Kent Island Resort</a>
-                        <a class="is-flex is-flex-direction-column" href="https://goo.gl/maps/yakcvKLDJNpuBMNU9">
+                        <a class="is-flex is-flex-direction-column is-size-7 is-align-items-flex-end" href="https://goo.gl/maps/yakcvKLDJNpuBMNU9">
                             <span>500 Kent Manor Drive</span>
                             <span>Stevensville, MD 21666</span>
                         </a>

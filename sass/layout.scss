@@ -61,6 +61,10 @@ $flowerLeft: -80px;
     left: 10px;
     top: -10px;
   }
+
+  @include mobile {
+    width: 11em;
+  }
 }
 
 .footer .flowers {
