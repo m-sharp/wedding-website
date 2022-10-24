@@ -57,8 +57,8 @@ $flowerLeft: -80px;
 
   @include touch {
     display: block;
-    width: 19em;
-    left: 5px;
+    width: 15em;
+    left: 10px;
     top: -10px;
   }
 }
@@ -68,8 +68,4 @@ $flowerLeft: -80px;
   position: relative;
   left: $flowerLeft;
   top: -5px;
-
-  @include touch {
-    display: none;
-  }
 }
