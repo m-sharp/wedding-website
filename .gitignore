@@ -17,3 +17,7 @@
 # Build assets
 web/static/css/main.min.css
 web/static/js/main.min.js
+
+# Go vendor files - only need modules.txt
+vendor/
+!vendor/modules.txt

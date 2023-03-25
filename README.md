@@ -11,6 +11,7 @@ Simple static website powered by Go for our wedding
 
 ## Dev Reference
 
+- Pull down Go dependencies with `go mod vendor`
 - Build Docker images:
   - `docker build -t registry.digitalocean.com/harp-do-registry/wedding-website .`
   - `docker build --build-arg PASS=REDACTED -t wedding-website-db ./mysql/`
