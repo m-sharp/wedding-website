@@ -46,6 +46,7 @@ COPY --from=builder /out/main.min.css web/static/css/
 COPY --from=builder /out/main.min.js web/static/js/
 
 COPY go.mod .
+COPY go.sum .
 COPY main.go .
 COPY lib/ lib/
 COPY vendor/ vendor/

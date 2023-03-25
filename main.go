@@ -27,12 +27,14 @@ func main() {
 	cfg := getCfg()
 	logger := getLogger(cfg)
 
-	client := getDBClient(ctx, cfg, logger)
+	client := getDBClient(cfg, logger)
 	if err := migrations.RunAll(ctx, client, logger); err != nil {
 		log.Fatal("Failed to run DB migrations", zap.Error(err))
 	}
 
-	server := web.NewWebServer(logger, pageContext)
+	apiRouter := web.NewApiRouter(ctx, logger, client)
+
+	server := web.NewWebServer(logger, pageContext, apiRouter)
 	if err := server.Serve(); err != nil {
 		logger.Panic("Server stopped listening", zap.Error(err))
 	}
@@ -69,8 +71,8 @@ func getLogger(cfg *lib.Config) *zap.Logger {
 	return logger
 }
 
-func getDBClient(ctx context.Context, cfg *lib.Config, log *zap.Logger) *lib.DBClient {
-	client, err := lib.NewDBClient(ctx, cfg, log)
+func getDBClient(cfg *lib.Config, log *zap.Logger) *lib.DBClient {
+	client, err := lib.NewDBClient(cfg, log)
 	if err != nil {
 		log.Fatal("Error creating DB client", zap.Error(err))
 	}

@@ -24,6 +24,8 @@ const (
 	devEnvVar   = "DEV"
 	Development = "Development"
 
+	// ToDo - master pass for us to get into the RSVP check page
+
 	lookupErr = "ENVVAR for %q not found"
 )
 

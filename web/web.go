@@ -40,12 +40,15 @@ type Server struct {
 	router    *mux.Router
 }
 
-func NewWebServer(log *zap.Logger, renderCtx *RenderContext) *Server {
+func NewWebServer(log *zap.Logger, renderCtx *RenderContext, api *ApiRouter) *Server {
 	inst := &Server{
 		log:       log.Named("WebServer"),
 		renderCtx: renderCtx,
 		router:    mux.NewRouter(),
 	}
+	// Setup API routes first, as the web request routes have a generic catch all
+	api.SetupRoutes(inst.router)
+	// Setup web request routes
 	inst.setupRoutes()
 	return inst
 }
@@ -64,8 +67,6 @@ func (s *Server) setupRoutes() {
 	s.router.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, filepath.Join(SiteFilesDir, "favicon.ico"))
 	})
-
-	// ToDo - Handle API requests
 
 	// Handle other requests
 	s.router.PathPrefix("/").HandlerFunc(s.handlePageRequests)
