@@ -22,20 +22,14 @@ RUN minify --type=css < css/main.css > /out/main.min.css
 RUN minify --type=js < js/main.js > /out/main.min.js
 
 FROM golang:1.17.8-alpine3.15 as website
-ARG EMAIL_PASS
-ENV EMAILPASSWORD $EMAIL_PASS
 
-ARG DB_HOST
-ENV DBHOST $DB_HOST
-
-ARG DB_USER
-ENV DBUSER $DB_USER
-
-ARG DB_PASS
-ENV DBPASSWORD $DB_PASS
-
-ARG DB_PORT
-ENV DBPORT $DB_PORT
+ENV EMAILPASSWORD ""
+ENV DBHOST ""
+ENV DBUSER ""
+ENV DBPASSWORD ""
+ENV DBPORT ""
+ENV WEBUSER ""
+ENV WEBPASS ""
 
 RUN mkdir /wedding-website
 WORKDIR /wedding-website

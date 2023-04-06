@@ -22,7 +22,10 @@ Simple static website powered by Go for our wedding
       --env DBHOST=host.docker.internal \
       --env DBUSER=root \
       --env DBPASSWORD=REDACTED \
-      --env DBPORT=3306 registry.digitalocean.com/harp-do-registry/wedding-website
+      --env DBPORT=3306 \
+      --env DEV=1 \
+      --env WEBUSER=admin \
+      --env WEBPASS=REDACTED registry.digitalocean.com/harp-do-registry/wedding-website
     ```
   - `docker run --detach --name=wedding-website-db --publish 3306:3306 wedding-website-db`
 - Push to DigitalOcean: `docker login registry.digitalocean.com && docker push registry.digitalocean.com/harp-do-registry/wedding-website:latest`
@@ -41,6 +44,8 @@ Commands for running builds by hand:
 - `DBUSER` - Username to connect to the database with.
 - `DBPASSWORD` - Password to connect to the database with.
 - `DBPORT` - Port to connect to database on.
+- `WEBUSER` - Admin username for web basic auth requests.
+- `WEBPASS` - Admin password for web basic auth requests.
 
 ## Acknowledgements
 

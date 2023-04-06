@@ -3,6 +3,7 @@ package lib
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 )
@@ -10,6 +11,8 @@ import (
 const (
 	InsertRSVP  = `INSERT INTO rsvp (content, ctime) VALUES (?, ?);`
 	GetAllRSVPs = `SELECT id, content, ctime FROM rsvp;`
+
+	rsvpValidationErr = "invalid RSVP: %s"
 )
 
 type DinnerType int
@@ -28,14 +31,53 @@ type RSVP struct {
 	Email        string     `json:"email"`
 	IsAttending  bool       `json:"is_attending"`
 	DinnerChoice DinnerType `json:"dinner_choice"`
-	Comments     string     `json:"comments"`
-	Guests       []*PlusOne `json:"guests"`
+	Comments     string     `json:"comments,omitempty"`
+	Guests       []*PlusOne `json:"guests,omitempty"`
+}
+
+func (r *RSVP) Validate() error {
+	if r.FirstName == "" {
+		return fmt.Errorf(rsvpValidationErr, "missing First Name")
+	}
+	if r.LastName == "" {
+		return fmt.Errorf(rsvpValidationErr, "missing Last Name")
+	}
+	if r.Email == "" {
+		return fmt.Errorf(rsvpValidationErr, "missing Email Address")
+	}
+	if r.DinnerChoice == UnknownDinner {
+		return fmt.Errorf(rsvpValidationErr, "invalid dinner selection")
+	}
+	if len(r.Guests) > 1 {
+		return fmt.Errorf(rsvpValidationErr, "cannot have more than a single +1 guest")
+	}
+	for _, guest := range r.Guests {
+		if err := guest.Validate(); err != nil {
+			return fmt.Errorf("invalid RSVP guest: %w", err)
+		}
+	}
+
+	return nil
 }
 
 type PlusOne struct {
 	FirstName    string     `json:"first_name"`
 	LastName     string     `json:"last_name"`
 	DinnerChoice DinnerType `json:"dinner_choice"`
+}
+
+func (p *PlusOne) Validate() error {
+	if p.FirstName == "" {
+		return errors.New("missing First Name")
+	}
+	if p.LastName == "" {
+		return errors.New("missing Last Name")
+	}
+	if p.DinnerChoice == UnknownDinner {
+		return errors.New("invalid dinner selection")
+	}
+
+	return nil
 }
 
 type RSVPRow struct {
@@ -79,6 +121,10 @@ func (r *RSVPProvider) GetAll(ctx context.Context) ([]*RSVP, error) {
 		rsvps = append(rsvps, rsvp)
 	}
 
+	// Return an empty list instead of nil
+	if rsvps == nil {
+		return []*RSVP{}, nil
+	}
 	return rsvps, nil
 }
 
