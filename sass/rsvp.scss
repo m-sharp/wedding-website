@@ -1,0 +1,25 @@
+#rsvp .title {
+  text-align: center;
+  letter-spacing: 15px;
+}
+
+#rsvp h1, #rsvp label, #rsvp p, #rsvp .title {
+  color: $gold;
+}
+
+#rsvp form {
+  padding: 1em;
+}
+
+#rsvp label.radio {
+  font-size: 1.25em;
+  vertical-align: sub;
+}
+
+#rsvp form>div.field:not(:last-child) {
+  margin-bottom: 1.75rem;
+}
+
+#rsvp textarea {
+  border-radius: 25px;
+}

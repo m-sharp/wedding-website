@@ -38,6 +38,7 @@ func NewApiRouter(ctx context.Context, cfg *lib.Config, log *zap.Logger, client 
 		rsvpProvider: lib.NewRSVPProvider(client),
 	}
 	inst.routes = []*Route{
+		// ToDo: Lock this down via CORS?
 		{
 			Path:    "/api/rsvp",
 			Method:  http.MethodPost,

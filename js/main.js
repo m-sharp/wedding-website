@@ -12,4 +12,22 @@ $(document).ready(function() {
         }
         $(".navbar-menu").toggleClass("is-active");
     });
+
+    let $addGuest = $("#addGuest");
+    let $guestForm = $("#guestForm");
+    $addGuest.click(function (e) {
+        e.preventDefault();
+        $guestForm.toggle();
+
+        $addGuest.find("i").toggleClass("fa-user-plus fa-user-minus");
+
+        let $text = $addGuest.find(".buttonText")
+        if($guestForm.is(":hidden")) {
+            $text.text("Add Guest");
+            $("#guestName").val("");
+            $("#guestDinnerChoice").val("0");
+        } else {
+            $text.text("Remove Guest");
+        }
+    });
 });

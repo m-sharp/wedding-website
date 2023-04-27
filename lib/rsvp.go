@@ -26,8 +26,7 @@ const (
 )
 
 type RSVP struct {
-	FirstName    string     `json:"first_name"`
-	LastName     string     `json:"last_name"`
+	Name         string     `json:"name"`
 	Email        string     `json:"email"`
 	IsAttending  bool       `json:"is_attending"`
 	DinnerChoice DinnerType `json:"dinner_choice"`
@@ -36,11 +35,8 @@ type RSVP struct {
 }
 
 func (r *RSVP) Validate() error {
-	if r.FirstName == "" {
-		return fmt.Errorf(rsvpValidationErr, "missing First Name")
-	}
-	if r.LastName == "" {
-		return fmt.Errorf(rsvpValidationErr, "missing Last Name")
+	if r.Name == "" {
+		return fmt.Errorf(rsvpValidationErr, "missing Name")
 	}
 	if r.Email == "" {
 		return fmt.Errorf(rsvpValidationErr, "missing Email Address")
@@ -61,17 +57,13 @@ func (r *RSVP) Validate() error {
 }
 
 type PlusOne struct {
-	FirstName    string     `json:"first_name"`
-	LastName     string     `json:"last_name"`
+	Name         string     `json:"name"`
 	DinnerChoice DinnerType `json:"dinner_choice"`
 }
 
 func (p *PlusOne) Validate() error {
-	if p.FirstName == "" {
-		return errors.New("missing First Name")
-	}
-	if p.LastName == "" {
-		return errors.New("missing Last Name")
+	if p.Name == "" {
+		return errors.New("missing Name")
 	}
 	if p.DinnerChoice == UnknownDinner {
 		return errors.New("invalid dinner selection")

@@ -11,7 +11,7 @@ $gold: #EEE8AA;
 $family-primary: "lora";
 $family-sans-serif: "lora";
 $primary: $burgundy;
-$link: $pink;
+$link: $blue;
 $navbar-background-color: $burgundy;
 $navbar-item-color: $gold;
 $navbar-item-hover-background-color: $burgundy;
@@ -23,8 +23,13 @@ $section-padding: 2rem 0.5rem;
 @import "bulma/bulma.sass";
 @import "layout.scss";
 @import "home.scss";
+@import "rsvp.scss";
 
 /* General */
+a {
+  color: $pink;
+}
+
 a:hover {
   color: gold !important;
   text-decoration: underline;
