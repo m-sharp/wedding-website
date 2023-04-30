@@ -9,8 +9,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/m-sharp/wedding-website/lib"
 	"go.uber.org/zap"
+
+	"github.com/m-sharp/wedding-website/lib"
 )
 
 type MiddlewareFunc func(nextHandler http.HandlerFunc) http.HandlerFunc
@@ -38,7 +39,6 @@ func NewApiRouter(ctx context.Context, cfg *lib.Config, log *zap.Logger, client 
 		rsvpProvider: lib.NewRSVPProvider(client),
 	}
 	inst.routes = []*Route{
-		// ToDo: Lock this down via CORS?
 		{
 			Path:    "/api/rsvp",
 			Method:  http.MethodPost,
@@ -64,6 +64,7 @@ func (a *ApiRouter) SetupRoutes(router *mux.Router) {
 	}
 }
 
+// ToDo: Lock down with COORS
 func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -85,11 +86,14 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	a.log.Info("Saving RSVP record", zap.Any("RSVP", rsvp))
 	if err := a.rsvpProvider.Add(a.ctx, &rsvp); err != nil {
 		a.log.Error("Failed to add RSVP record", zap.Any("RSVP", rsvp), zap.Error(err))
 		http.Error(w, "failed to save RSVP record", http.StatusInternalServerError)
 		return
 	}
+
+	// ToDo: Compile template for email, Send off email
 
 	w.WriteHeader(http.StatusCreated)
 }

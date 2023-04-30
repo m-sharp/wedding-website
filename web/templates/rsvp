@@ -2,7 +2,7 @@
     <section class="section" id="rsvp">
         <div class="container">
             <h1 class="title is-1 is-spaced greatVibes">RSVP</h1>
-            <form>
+            <form id="rsvpForm">
                 <div class="field is-horizontal">
                     <div class="field-label is-medium">
                         <label class="label">Contact Information</label>
@@ -11,7 +11,12 @@
                         <div class="field">
                             <p class="control is-expanded has-icons-left">
                                 <label for="name" hidden>Name</label>
-                                <input id="name" name="name" class="input is-medium is-rounded" type="text" placeholder="First & Last Name">
+                                <input id="name"
+                                    name="name"
+                                    class="input is-medium is-rounded"
+                                    type="text"
+                                    required
+                                    placeholder="First & Last Name">
                                 <span class="icon is-medium is-left">
                                     <i class="fa-solid fa-user"></i>
                                 </span>
@@ -20,7 +25,12 @@
                         <div class="field">
                             <p class="control is-expanded has-icons-left">
                                 <label for="email" hidden>Email Address</label>
-                                <input id="email" name="email" class="input is-medium is-rounded" type="email" placeholder="Email Address">
+                                <input id="email"
+                                    name="email"
+                                    class="input is-medium is-rounded"
+                                    type="email"
+                                    required
+                                    placeholder="Email Address">
                                 <span class="icon is-medium is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
@@ -29,19 +39,73 @@
                     </div>
                 </div>
 
+                <div id="guestForm" class="field" hidden>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-medium">
+                            <label class="label">Guest Information</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <label for="guest_name" hidden>Guest Name</label>
+                                    <input id="guest_name" name="guest_name" class="input is-medium is-rounded" type="text" placeholder="First & Last Name">
+                                    <span class="icon is-medium is-left">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <div class="control is-expanded has-icons-left">
+                                    <div class="select is-medium is-rounded is-fullwidth">
+                                        <label for="guest_dinner_choice" hidden>Guest Dinner Selection</label>
+                                        <select id="guest_dinner_choice" name="guest_dinner_choice">
+                                            <option value="">Select a Meal...</option>
+                                            <option value="1">Filet Mignon with things</option>
+                                            <option value="2">Broiled Salmon with things</option>
+                                            <option value="3">Vegetables, like just vegetables</option>
+                                        </select>
+                                    </div>
+                                    <span class="icon is-medium is-left">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <button id="addGuest" class="button is-small is-rounded" tabindex="0">
+                            <span class="icon">
+                              <i class="fa-solid fa-user-plus"></i>
+                            </span>
+                            <span class="buttonText">Add Guest</span>
+                        </button>
+                    </div>
+                </div>
+
+                {{/*TODO - want accommodation info?*/}}
+                {{/*TODO - shuffle around so that each person is a "Guest" w/ Name, Meal & IsAttending and have Email Contact as field on the bottom*/}}
+
                 <div class="field is-horizontal">
                     <div class="field-label is-medium">
-                        <label class="label">Attending?</label>
+                        <label class="label" for="is_attending">Attending?</label>
                     </div>
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
                                 <label class="radio is-medium">
-                                    <input type="radio" name="isAttending" value="true">
+                                    <input type="radio"
+                                        name="is_attending"
+                                        required
+                                        value="true">
                                     Happily Accepts
                                 </label>
                                 <label class="radio is-medium">
-                                    <input type="radio" name="isAttending" value="false">
+                                    <input type="radio"
+                                        name="is_attending"
+                                        required
+                                        value="false">
                                     Regretfully Declines
                                 </label>
                             </div>
@@ -51,14 +115,14 @@
 
                 <div class="field is-horizontal">
                     <div class="field-label is-medium">
-                        <label class="label" for="dinnerChoice">Dinner Selection</label>
+                        <label class="label" for="dinner_choice">Dinner Selection</label>
                     </div>
                     <div class="field-body">
                         <div class="field">
                             <div class="control has-icons-left">
                                 <div class="select is-medium is-rounded">
-                                    <select id="dinnerChoice" name="dinnerChoice">
-                                        <option value="0">Select a Meal...</option>
+                                    <select id="dinner_choice" name="dinner_choice" required>
+                                        <option value="">Select a Meal...</option>
                                         <option value="1">Filet Mignon with things</option>
                                         <option value="2">Broiled Salmon with things</option>
                                         <option value="3">Vegetables, like just vegetables</option>
@@ -85,54 +149,9 @@
                     </div>
                 </div>
 
-                <div id="guestForm" class="field" hidden>
-                    <div class="field is-horizontal">
-                        <div class="field-label is-medium">
-                            <label class="label">Guest Information</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control is-expanded has-icons-left">
-                                    <label for="guestName" hidden>Guest Name</label>
-                                    <input id="guestName" name="guestName" class="input is-medium is-rounded" type="text" placeholder="First & Last Name">
-                                    <span class="icon is-medium is-left">
-                                        <i class="fa-solid fa-user"></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <div class="control is-expanded has-icons-left">
-                                    <div class="select is-medium is-rounded is-fullwidth">
-                                        <label for="guestDinnerChoice" hidden>Guest Dinner Selection</label>
-                                        <select id="guestDinnerChoice" name="guestDinnerChoice">
-                                            <option value="0">Select a Meal...</option>
-                                            <option value="1">Filet Mignon with things</option>
-                                            <option value="2">Broiled Salmon with things</option>
-                                            <option value="3">Vegetables, like just vegetables</option>
-                                        </select>
-                                    </div>
-                                    <span class="icon is-medium is-left">
-                                    <i class="fa-solid fa-utensils"></i>
-                                </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="field has-addons has-addons-centered">
                     <div class="control">
-                        <button id="addGuest" class="button is-link is-light is-small is-rounded">
-                            <span class="icon">
-                              <i class="fa-solid fa-user-plus"></i>
-                            </span>
-                            <span class="buttonText">Add Guest</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="field has-addons has-addons-centered">
-                    <div class="control">
-                        <button class="button is-primary is-large is-rounded">
+                        <button class="button is-primary is-large is-rounded" tabindex="0">
                             Submit
                         </button>
                     </div>
