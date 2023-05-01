@@ -3,7 +3,7 @@
   letter-spacing: 15px;
 }
 
-#rsvp h1, #rsvp label, #rsvp p, #rsvp .title {
+#rsvp h1, #rsvp label, #rsvp p, #rsvp .title, .checkbox {
   color: $gold;
 }
 
@@ -16,10 +16,21 @@
   vertical-align: sub;
 }
 
-#rsvp form>div.field:not(:last-child) {
+.radio+.radio {
+  @include desktop {
+    margin-left: 10.5em;
+  }
+}
+
+#rsvp form>div.field:not(:last-child),
+#guestForm>div.field:not(:last-child) {
   margin-bottom: 1.75rem;
 }
 
 #rsvp textarea {
   border-radius: 25px;
+}
+
+.checkbox.control {
+  padding-top: 0.75em;
 }

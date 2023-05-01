@@ -33,7 +33,7 @@ a {
   color: $pink;
 }
 
-a:hover {
+a:hover, .checkbox:hover{
   color: gold !important;
   text-decoration: underline;
 }

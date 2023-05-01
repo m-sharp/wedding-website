@@ -32,6 +32,7 @@ type RSVP struct {
 	DinnerChoice DinnerType `json:"dinner_choice"`
 	Comments     string     `json:"comments,omitempty"`
 	Guests       []*PlusOne `json:"guests,omitempty"`
+	WantsAccomm  bool       `json:"accommodations"`
 }
 
 func (r *RSVP) Validate() error {
@@ -59,6 +60,7 @@ func (r *RSVP) Validate() error {
 type PlusOne struct {
 	Name         string     `json:"name"`
 	DinnerChoice DinnerType `json:"dinner_choice"`
+	IsAttending  bool       `json:"is_attending"`
 }
 
 func (p *PlusOne) Validate() error {
