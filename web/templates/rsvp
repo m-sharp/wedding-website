@@ -1,7 +1,22 @@
 {{ define "body" }}
     <section class="section" id="rsvp">
         <div class="container">
+            <article id="errorBanner" class="message is-danger" style="display: none;">
+                <div class="message-header">
+                    <p>Error Submitting Form</p>
+                    <button id="errorClose" class="delete" aria-label="close" tabindex="0"></button>
+                </div>
+                <div class="message-body has-text-centered is-flex is-flex-direction-column">
+                    <span id="errorText"></span>
+                    <span>Please check your inputs and try again.</span>
+                    <span>If issues persist, please contact Mike with this error!</span>
+                </div>
+            </article>
             <h1 class="title is-1 is-spaced greatVibes">RSVP</h1>
+            <div id="successText" class="has-text-centered is-flex-direction-column" hidden>
+                <h2 class="title">Thank You for RSVPing!</h2>
+                <p>We can't wait to share our special day with you. Please check your email for a confirmation message.</p>
+            </div>
             <form id="rsvpForm">
                 <div class="field is-horizontal">
                     <div class="field-label is-medium">

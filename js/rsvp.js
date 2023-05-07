@@ -1,6 +1,12 @@
 $(document).ready(function() {
     // RSVP Form
     let $rsvpForm = $("#rsvpForm");
+
+    let $errorBanner = $("#errorBanner");
+    let $errorText = $("#errorText");
+
+    let $successText = $("#successText");
+
     let $addGuestButton = $("#addGuest");
     let $guestForm = $("#guestForm");
 
@@ -18,7 +24,12 @@ $(document).ready(function() {
     // Checkbox text accessibility
     $("#accommodationSpan").click(function(e) {
         $accommodations.click();
-    })
+    });
+
+    // Error close
+    $("#errorClose").click(function(e) {
+        $errorBanner.hide();
+    });
 
     // Form Guest Toggle
     $addGuestButton.click(function(e) {
@@ -47,7 +58,7 @@ $(document).ready(function() {
 
             $guestDinnerChoiceSelect.prop("required", true);
 
-            $guestAttendingInput.prop("required", true)
+            $guestAttendingInput.prop("required", true);
         }
     });
 
@@ -62,7 +73,7 @@ $(document).ready(function() {
             dinner_choice: parseInt($dinnerChoiceSelect.val()),
             accommodations: $accommodations.is(":checked"),
             comments: $commentsInput.val(),
-        }
+        };
 
         if ($guestNameInput.prop("required") === true) {
             payload["guests"] = [
@@ -79,14 +90,21 @@ $(document).ready(function() {
             url: '/api/rsvp',
             data: JSON.stringify(payload),
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data){
-                // ToDo: Check for status created, Clear form, "Thanks for RSVPing" message, expect email?
-                alert(data);
+            success: function(data, textStatus){
+                $errorBanner.hide();
+
+                $rsvpForm[0].reset();
+                $rsvpForm.css("visibility", "hidden");
+
+                $successText.show();
+                $successText.addClass("is-flex");
             },
             error: function(errMsg) {
-                // ToDo: Post responseText message in an error banner with "contact mike if issues continue"
-                alert(errMsg.responseText);
+                $errorText.text("Error submitting form: " + errMsg.responseText.trim() + ".");
+                $errorBanner.show();
+            },
+            complete: function () {
+                window.scrollTo(0, 0);
             },
         });
 

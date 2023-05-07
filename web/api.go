@@ -92,7 +92,8 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// ToDo: Compile template for email, Send off email
+	// ToDo: Compile template for email, Send off email to RSVPer
+	// TODo: Compile template for email, Send off to us
 
 	w.WriteHeader(http.StatusCreated)
 }
