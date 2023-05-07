@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="/static/css/main.min.css">
         <script src="/static/js/jquery-3.6.0.min.js"></script>
         <script src="/static/js/main.min.js"></script>
+        {{ template "pageJs" }}
         {{ template "analytics" }}
         {{ template "typography" }}
     </head>

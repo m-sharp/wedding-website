@@ -196,3 +196,7 @@
         </div>
     </section>
 {{ end }}
+
+{{ define "pageJs" }}
+    <script src="/static/js/rsvp.min.js"></script>
+{{ end}}

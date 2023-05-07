@@ -45,3 +45,6 @@
         </div>
     </section>
 {{ end }}
+
+{{ define "pageJs" }}
+{{ end}}

@@ -1,6 +1,10 @@
 FROM tdewolff/minify:latest as builder
 RUN mkdir /build
+
 RUN mkdir /out
+RUN mkdir /out/css
+RUN mkdir /out/js
+
 WORKDIR /build
 
 # Setup SASS
@@ -18,8 +22,9 @@ COPY ./js/ js/
 
 # Build Sass & Minify
 RUN dart-sass/sass css/style.scss css/main.css
-RUN minify --type=css < css/main.css > /out/main.min.css
-RUN minify --type=js < js/main.js > /out/main.min.js
+RUN minify --type=css < css/main.css > /out/css/main.min.css
+RUN minify --type=js < js/main.js > /out/js/main.min.js
+RUN minify --type=js < js/rsvp.js > /out/js/rsvp.min.js
 
 FROM golang:1.17.8-alpine3.15 as website
 
@@ -36,8 +41,8 @@ WORKDIR /wedding-website
 RUN mkdir app/
 
 COPY web/ web/
-COPY --from=builder /out/main.min.css web/static/css/
-COPY --from=builder /out/main.min.js web/static/js/
+COPY --from=builder /out/css/ web/static/css/
+COPY --from=builder /out/js/ web/static/js/
 
 COPY go.mod .
 COPY go.sum .
