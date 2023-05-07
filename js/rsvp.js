@@ -62,13 +62,16 @@ $(document).ready(function() {
             dinner_choice: parseInt($dinnerChoiceSelect.val()),
             accommodations: $accommodations.is(":checked"),
             comments: $commentsInput.val(),
-            guests: [
+        }
+
+        if ($guestNameInput.prop("required") === true) {
+            payload["guests"] = [
                 {
                     name: $guestNameInput.val(),
                     dinner_choice: parseInt($guestDinnerChoiceSelect.val()),
                     is_attending: ($guestAttendingInput.val() === 'true'),
                 }
-            ],
+            ];
         }
 
         $.ajax({

@@ -1,7 +1,6 @@
 package web
 
 import (
-	"context"
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/json"
@@ -24,16 +23,14 @@ type Route struct {
 }
 
 type ApiRouter struct {
-	ctx          context.Context // ToDo - Context probably shouldn't be held here...
 	cfg          *lib.Config
 	log          *zap.Logger
 	rsvpProvider *lib.RSVPProvider
 	routes       []*Route
 }
 
-func NewApiRouter(ctx context.Context, cfg *lib.Config, log *zap.Logger, client *lib.DBClient) *ApiRouter {
+func NewApiRouter(cfg *lib.Config, log *zap.Logger, client *lib.DBClient) *ApiRouter {
 	inst := &ApiRouter{
-		ctx:          ctx,
 		cfg:          cfg,
 		log:          log.Named("ApiRoute"),
 		rsvpProvider: lib.NewRSVPProvider(client),
@@ -66,6 +63,8 @@ func (a *ApiRouter) SetupRoutes(router *mux.Router) {
 
 // ToDo: Lock down with COORS
 func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		a.log.Error("Failed to read RSVP post body", zap.Error(err))
@@ -87,7 +86,7 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	a.log.Info("Saving RSVP record", zap.Any("RSVP", rsvp))
-	if err := a.rsvpProvider.Add(a.ctx, &rsvp); err != nil {
+	if err := a.rsvpProvider.Add(ctx, &rsvp); err != nil {
 		a.log.Error("Failed to add RSVP record", zap.Any("RSVP", rsvp), zap.Error(err))
 		http.Error(w, "failed to save RSVP record", http.StatusInternalServerError)
 		return
@@ -98,8 +97,10 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func (a *ApiRouter) RSVPGetAll(w http.ResponseWriter, _ *http.Request) {
-	rsvps, err := a.rsvpProvider.GetAll(a.ctx)
+func (a *ApiRouter) RSVPGetAll(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	rsvps, err := a.rsvpProvider.GetAll(ctx)
 	if err != nil {
 		a.log.Error("Failed to get RSVP records", zap.Error(err))
 		http.Error(w, "failed to get RSVP records", http.StatusInternalServerError)
@@ -148,7 +149,7 @@ func (a *ApiRouter) BasicAuthMiddleware(nextHandler http.HandlerFunc) http.Handl
 	}
 }
 
-// subtleCompare compares to strings in constant time by first hashing the strings.
+// subtleCompare compares two strings in constant time by first hashing the strings.
 func subtleCompare(actual, expected string) bool {
 	actualHash := sha256.Sum256([]byte(actual))
 	expectedHash := sha256.Sum256([]byte(expected))
