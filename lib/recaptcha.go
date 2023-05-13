@@ -1,12 +1,14 @@
 package lib
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"go.uber.org/zap"
 	"io"
 	"net/http"
+	"net/url"
+	"strings"
+
+	"go.uber.org/zap"
 )
 
 const (
@@ -21,21 +23,16 @@ type RecaptchaResponse struct {
 }
 
 func Verify(log *zap.Logger, recaptchaSecret, userRespToken, userIp string) (bool, error) {
-	bodyData := struct {
-		Secret   string `json:"secret"`
-		Response string `json:"response"`
-		RemoteIP string `json:"remoteip"`
-	}{
-		Secret:   recaptchaSecret,
-		Response: userRespToken,
-		RemoteIP: userIp,
-	}
-	content, err := json.Marshal(bodyData)
-	if err != nil {
-		return false, fmt.Errorf("failed to construct recaptcha body data: %w", err)
-	}
+	bodyData := url.Values{}
+	bodyData.Set("secret", recaptchaSecret)
+	bodyData.Set("response", userRespToken)
+	bodyData.Set("remoteip", userIp)
 
-	resp, err := http.Post(recaptchaUrl, "application/json", bytes.NewReader(content))
+	resp, err := http.Post(
+		recaptchaUrl,
+		"application/x-www-form-urlencoded",
+		strings.NewReader(bodyData.Encode()),
+	)
 	if err != nil {
 		return false, fmt.Errorf("error sending recaptcha request: %w", err)
 	}

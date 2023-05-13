@@ -35,6 +35,7 @@ ENV DBPASSWORD ""
 ENV DBPORT ""
 ENV WEBUSER ""
 ENV WEBPASS ""
+ENV RECAPTCHASEC ""
 
 RUN mkdir /wedding-website
 WORKDIR /wedding-website

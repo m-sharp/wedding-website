@@ -88,21 +88,32 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 
 	respToken := r.URL.Query().Get("token")
 	if respToken == "" {
-		a.log.Error("RSVP post did not include verification token")
-		http.Error(w, "request did not include recaptcha token, please try again", http.StatusBadRequest)
+		log.Error("RSVP post did not include verification token")
+		http.Error(w, "request did not include recaptcha token", http.StatusBadRequest)
 		return
 	}
 
 	recaptchaSecret, err := a.cfg.Get(lib.RecaptchaSecret)
 	if err != nil {
-		a.log.Error("Missing Recaptcha secret in config", zap.Error(err))
+		log.Error("Missing Recaptcha secret in config", zap.Error(err))
 		http.Error(w, "could not verify recaptcha token", http.StatusInternalServerError)
 		return
 	}
 
-	a.log.Info("Saving RSVP record", zap.Any("RSVP", rsvp))
+	verified, err := lib.Verify(log, recaptchaSecret, respToken, r.RemoteAddr)
+	if err != nil {
+		log.Error("Error verifying Recaptcha response", zap.Error(err))
+		http.Error(w, "failed to verify recaptcha token", http.StatusInternalServerError)
+		return
+	} else if !verified {
+		log.Error("Recaptcha response token not valid")
+		http.Error(w, "recaptcha token failed validation", http.StatusBadRequest)
+		return
+	}
+
+	log.Info("Saving RSVP record")
 	if err := a.rsvpProvider.Add(ctx, &rsvp); err != nil {
-		a.log.Error("Failed to add RSVP record", zap.Any("RSVP", rsvp), zap.Error(err))
+		log.Error("Failed to add RSVP record", zap.Error(err))
 		http.Error(w, "failed to save RSVP record", http.StatusInternalServerError)
 		return
 	}

@@ -25,7 +25,8 @@ Simple static website powered by Go for our wedding
       --env DBPORT=3306 \
       --env DEV=1 \
       --env WEBUSER=admin \
-      --env WEBPASS=REDACTED registry.digitalocean.com/harp-do-registry/wedding-website
+      --env WEBPASS=REDACTED \
+      --env RECAPTCHASEC=REDACTED \ registry.digitalocean.com/harp-do-registry/wedding-website
     ```
   - `docker run --detach --name=wedding-website-db --publish 3306:3306 wedding-website-db`
 - Push to DigitalOcean: `docker login registry.digitalocean.com && docker push registry.digitalocean.com/harp-do-registry/wedding-website:latest`
@@ -39,13 +40,14 @@ Commands for running builds by hand:
 
 ## Required Environment Variables
 
-- `EMAILPASSWORD` - App password for email account.
+- `EMAILPASSWORD` - App password for email account. Needs to be setup via Google and GMail.
 - `DBHOST` - Hostname of database.
 - `DBUSER` - Username to connect to the database with.
 - `DBPASSWORD` - Password to connect to the database with.
 - `DBPORT` - Port to connect to database on.
 - `WEBUSER` - Admin username for web basic auth requests.
 - `WEBPASS` - Admin password for web basic auth requests.
+- `RECAPTCHASEC` - Recaptcha server-side verification secret. Needs to be setup via Google.
 
 ## Acknowledgements
 
