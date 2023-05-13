@@ -200,6 +200,8 @@
                     </div>
                 </div>
 
+                <div id="recaptcha" hidden></div>
+
                 <div class="field has-addons has-addons-centered">
                     <div class="control">
                         <button class="button is-primary is-large is-rounded" tabindex="0">
@@ -213,5 +215,6 @@
 {{ end }}
 
 {{ define "pageJs" }}
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
     <script src="/static/js/rsvp.min.js"></script>
 {{ end}}

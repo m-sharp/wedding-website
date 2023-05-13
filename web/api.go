@@ -78,10 +78,25 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to decode request body", http.StatusBadRequest)
 		return
 	}
+	log := a.log.With(zap.Any("RSVP", rsvp))
 
 	if err := rsvp.Validate(); err != nil {
-		a.log.Error("RSVP failed validation", zap.Any("RSVP", rsvp), zap.Error(err))
+		log.Error("RSVP failed validation", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	respToken := r.URL.Query().Get("token")
+	if respToken == "" {
+		a.log.Error("RSVP post did not include verification token")
+		http.Error(w, "request did not include recaptcha token, please try again", http.StatusBadRequest)
+		return
+	}
+
+	recaptchaSecret, err := a.cfg.Get(lib.RecaptchaSecret)
+	if err != nil {
+		a.log.Error("Missing Recaptcha secret in config", zap.Error(err))
+		http.Error(w, "could not verify recaptcha token", http.StatusInternalServerError)
 		return
 	}
 

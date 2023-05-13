@@ -21,6 +21,9 @@ $(document).ready(function() {
     let $guestDinnerChoiceSelect = $("#guest_dinner_choice");
     let $guestAttendingInput = $rsvpForm.find("input[name=guest_is_attending]");
 
+    // Recaptcha
+    let $recaptcha = $("#recaptcha");
+
     // Checkbox text accessibility
     $("#accommodationSpan").click(function(e) {
         $accommodations.click();
@@ -66,6 +69,19 @@ $(document).ready(function() {
     $rsvpForm.on("submit", function(e) {
         e.preventDefault();
 
+        if ($recaptcha.is(":hidden")) {
+            grecaptcha.render("recaptcha", {"sitekey": "6LfnzAgmAAAAAIzgX4P9YPZadbxiGvX50SKdoWLH"});
+            $recaptcha.toggle();
+            $("#recaptcha-anchor").focus();
+            return;
+        }
+
+        let responseToken = grecaptcha.getResponse();
+        if (responseToken === "") {
+            $("#recaptcha-anchor").focus();
+            return;
+        }
+
         let payload = {
             name: $nameInput.val(),
             email: $emailInput.val(),
@@ -87,7 +103,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/api/rsvp',
+            url: '/api/rsvp?' + $.param({token: responseToken}),
             data: JSON.stringify(payload),
             contentType: "application/json; charset=utf-8",
             success: function(data, textStatus){

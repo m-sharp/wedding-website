@@ -30,6 +30,9 @@ const (
 	webAdminPassEnvVar = "WEBPASS"
 	WebAdminPass       = "WebAdminPass"
 
+	recaptchaSecretEnvVar = "RECAPTCHASEC"
+	RecaptchaSecret       = "RecaptchaSecret"
+
 	lookupErr = "ENVVAR for %q not found"
 )
 
@@ -63,13 +66,14 @@ func (c *Config) Set(key, value string) {
 
 var (
 	lookupMap = map[string]string{
-		emailPassEnvVar:    EmailPass,
-		dbHostEnvVar:       DBHost,
-		dbUserEnvVar:       DBUsername,
-		dbPassEnvVar:       DBPass,
-		dbPortEnvVar:       DBPort,
-		webAdminEnvVar:     WebAdminUser,
-		webAdminPassEnvVar: WebAdminPass,
+		emailPassEnvVar:       EmailPass,
+		dbHostEnvVar:          DBHost,
+		dbUserEnvVar:          DBUsername,
+		dbPassEnvVar:          DBPass,
+		dbPortEnvVar:          DBPort,
+		webAdminEnvVar:        WebAdminUser,
+		webAdminPassEnvVar:    WebAdminPass,
+		recaptchaSecretEnvVar: RecaptchaSecret,
 	}
 )
 
