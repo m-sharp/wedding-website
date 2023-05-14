@@ -37,3 +37,11 @@
 .checkbox.control {
   padding-top: 0.75em;
 }
+
+#rsvp .recaptchaNeeded {
+  border-color: red;
+  border-width: 0.5em;
+  border-style: solid;
+  border-radius: 0.5em;
+  padding: 0.5em;
+}

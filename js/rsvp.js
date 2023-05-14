@@ -69,17 +69,12 @@ $(document).ready(function() {
     $rsvpForm.on("submit", function(e) {
         e.preventDefault();
 
-        if ($recaptcha.is(":hidden")) {
-            grecaptcha.render("recaptcha", {"sitekey": "6LfnzAgmAAAAAIzgX4P9YPZadbxiGvX50SKdoWLH"});
-            $recaptcha.toggle();
-            $("#recaptcha-anchor").focus();
-            return;
-        }
-
         let responseToken = grecaptcha.getResponse();
         if (responseToken === "") {
-            $("#recaptcha-anchor").focus();
+            $recaptcha.addClass("recaptchaNeeded");
             return;
+        } else {
+            $recaptcha.removeClass("recaptchaNeeded");
         }
 
         let payload = {
@@ -127,3 +122,9 @@ $(document).ready(function() {
         return false;
     });
 });
+
+// Recaptcha doesn't like `let`, so `var` it is
+var onRecaptchaSubmit = function() {
+    $("#submitButton").prop('disabled', false);
+}
+onRecaptchaSubmit.name = "onRecaptchaSubmit"

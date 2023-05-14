@@ -200,11 +200,15 @@
                     </div>
                 </div>
 
-                <div id="recaptcha" hidden></div>
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <div id="recaptcha" class="g-recaptcha" data-sitekey="6LfnzAgmAAAAAIzgX4P9YPZadbxiGvX50SKdoWLH" data-callback="onRecaptchaSubmit"></div>
+                    </div>
+                </div>
 
                 <div class="field has-addons has-addons-centered">
                     <div class="control">
-                        <button class="button is-primary is-large is-rounded" tabindex="0">
+                        <button id="submitButton" class="button is-primary is-large is-rounded" tabindex="0" disabled>
                             Submit
                         </button>
                     </div>
@@ -215,6 +219,6 @@
 {{ end }}
 
 {{ define "pageJs" }}
-    <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/static/js/rsvp.min.js"></script>
 {{ end}}
