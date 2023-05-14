@@ -21,8 +21,9 @@ $(document).ready(function() {
     let $guestDinnerChoiceSelect = $("#guest_dinner_choice");
     let $guestAttendingInput = $rsvpForm.find("input[name=guest_is_attending]");
 
-    // Recaptcha
+    // Security
     let $recaptcha = $("#recaptcha");
+    let $csrfToken = $("input[name='gorilla.csrf.Token']");
 
     // Checkbox text accessibility
     $("#accommodationSpan").click(function(e) {
@@ -101,6 +102,9 @@ $(document).ready(function() {
             url: '/api/rsvp?' + $.param({token: responseToken}),
             data: JSON.stringify(payload),
             contentType: "application/json; charset=utf-8",
+            headers: {
+                "X-CSRF-Token": $csrfToken.val(),
+            },
             success: function(data, textStatus){
                 $errorBanner.hide();
 
@@ -109,6 +113,8 @@ $(document).ready(function() {
 
                 $successText.show();
                 $successText.addClass("is-flex");
+
+                grecaptcha.reset();
             },
             error: function(errMsg) {
                 $errorText.text("Error submitting form: " + errMsg.responseText.trim() + ".");

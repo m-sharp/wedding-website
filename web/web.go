@@ -6,9 +6,13 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
+	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
+
+	"github.com/m-sharp/wedding-website/lib"
 )
 
 const (
@@ -35,13 +39,15 @@ type RenderContext struct {
 
 // ToDo: cache page responses somehow
 type Server struct {
+	cfg       *lib.Config
 	log       *zap.Logger
 	renderCtx *RenderContext
 	router    *mux.Router
 }
 
-func NewWebServer(log *zap.Logger, renderCtx *RenderContext, api *ApiRouter) *Server {
+func NewWebServer(cfg *lib.Config, log *zap.Logger, renderCtx *RenderContext, api *ApiRouter) *Server {
 	inst := &Server{
+		cfg:       cfg,
 		log:       log.Named("WebServer"),
 		renderCtx: renderCtx,
 		router:    mux.NewRouter(),
@@ -73,8 +79,27 @@ func (s *Server) setupRoutes() {
 }
 
 func (s *Server) Serve() error {
+	isDev, err := s.cfg.Get(lib.Development)
+	if err != nil {
+		s.log.Error("Failed to get Development value from config", zap.Error(err))
+		isDev = "false"
+	}
+	development, err := strconv.ParseBool(isDev)
+	if err != nil {
+		s.log.Error("Failed to parse Development value from config as bool", zap.Error(err))
+		development = false
+	}
+
+	csrfSecret, err := s.cfg.Get(lib.CSRFSecret)
+	if err != nil {
+		return fmt.Errorf("failed to get CSRF Secret from config: %w", err)
+	}
+
 	s.log.Info("Now listening!", zap.String("Port", Port))
-	return http.ListenAndServe(fmt.Sprintf(":%v", Port), s.router)
+	return http.ListenAndServe(
+		fmt.Sprintf(":%v", Port),
+		csrf.Protect([]byte(csrfSecret), csrf.Secure(!development))(s.router),
+	)
 }
 
 func (s *Server) handlePageRequests(w http.ResponseWriter, r *http.Request) {
@@ -96,7 +121,15 @@ func (s *Server) handlePageRequests(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := tmpl.ExecuteTemplate(w, "layout", s.renderCtx); err != nil {
+	if err := tmpl.ExecuteTemplate(
+		w,
+		"layout",
+		map[string]interface{}{
+			csrf.TemplateTag: csrf.TemplateField(r),
+			"TargetDate":     s.renderCtx.TargetDate,
+			"TargetYear":     s.renderCtx.TargetYear,
+		},
+	); err != nil {
 		log.Error("Error building template files", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

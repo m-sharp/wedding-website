@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// ToDo: This is probably complex enough to warrant a file now...
 const (
 	emailPassEnvVar = "EMAILPASSWORD"
 	EmailPass       = "Email"
@@ -32,6 +33,9 @@ const (
 
 	recaptchaSecretEnvVar = "RECAPTCHASEC"
 	RecaptchaSecret       = "RecaptchaSecret"
+
+	csrfSecretEnvVar = "CSRFSEC"
+	CSRFSecret       = "CSRFSecret"
 
 	lookupErr = "ENVVAR for %q not found"
 )
@@ -74,6 +78,7 @@ var (
 		webAdminEnvVar:        WebAdminUser,
 		webAdminPassEnvVar:    WebAdminPass,
 		recaptchaSecretEnvVar: RecaptchaSecret,
+		csrfSecretEnvVar:      CSRFSecret,
 	}
 )
 

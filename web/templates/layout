@@ -16,6 +16,7 @@
     <body>
         {{ template "nav" }}
         {{ template "body" }}
+        {{ .csrfField }}
     </body>
     <footer class="footer greatVibes is-flex is-flex-direction-row">
         <figure>

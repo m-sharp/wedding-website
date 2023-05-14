@@ -34,7 +34,7 @@ func main() {
 
 	apiRouter := web.NewApiRouter(cfg, logger, client)
 
-	server := web.NewWebServer(logger, pageContext, apiRouter)
+	server := web.NewWebServer(cfg, logger, pageContext, apiRouter)
 	if err := server.Serve(); err != nil {
 		logger.Panic("Server stopped listening", zap.Error(err))
 	}
