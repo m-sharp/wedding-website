@@ -27,6 +27,7 @@ var (
 		filepath.Join(TemplatesDir, "analytics"),
 		filepath.Join(TemplatesDir, "typography"),
 	}
+	ReservedFiles = append(TemplateFiles, filepath.Join(TemplatesDir, "adminView"))
 
 	StaticDir    = filepath.FromSlash(filepath.Join("web", "static"))
 	SiteFilesDir = filepath.FromSlash(filepath.Join("web", "site_files"))
@@ -121,15 +122,11 @@ func (s *Server) handlePageRequests(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := tmpl.ExecuteTemplate(
-		w,
-		"layout",
-		map[string]interface{}{
-			csrf.TemplateTag: csrf.TemplateField(r),
-			"TargetDate":     s.renderCtx.TargetDate,
-			"TargetYear":     s.renderCtx.TargetYear,
-		},
-	); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "layout", map[string]interface{}{
+		csrf.TemplateTag: csrf.TemplateField(r),
+		"TargetDate":     s.renderCtx.TargetDate,
+		"TargetYear":     s.renderCtx.TargetYear,
+	}); err != nil {
 		log.Error("Error building template files", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -154,7 +151,7 @@ func (s *Server) is404(targetTplPath string) bool {
 		return true
 	}
 
-	for _, p := range TemplateFiles {
+	for _, p := range ReservedFiles {
 		if targetTplPath == p {
 			s.log.Debug("Reserved Path requested", zap.String("Path", targetTplPath))
 			return true

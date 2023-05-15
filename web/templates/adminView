@@ -1,0 +1,41 @@
+{{ define "body" }}
+    <section class="section" id="adminView">
+        <div class="table-container">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Attending</th>
+                        <th>Dinner Choice</th>
+                        <th>Partner Name</th>
+                        <th>Partner Attending</th>
+                        <th>Partner Dinner Choice</th>
+                        <th>Requested Accommodation</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{ range $i, $rsvp := .RSVPs }}
+                    <tr>
+                        <th>{{ $i }}</th>
+                        <td>{{ $rsvp.Name }}</td>
+                        <td>{{ $rsvp.Email}}</td>
+                        <td>{{ $rsvp.IsAttending }}</td>
+                        <td>{{ $rsvp.DinnerChoice }}</td>
+                        {{/*                    {{ $guest := index $rsvp.Guests 0 }}*/}}
+                        {{/*                    <td>{{ $guest.Name }}</td>*/}}
+                        {{/*                    <td>{{ $guest.IsAttending }}</td>*/}}
+                        {{/*                    <td>{{ $guest.DinnerChoice }}</td>*/}}
+                        <td>{{ $rsvp.WantsAccomm }}</td>
+                        <td>{{ $rsvp.Comments }}</td>
+                    </tr>
+                {{ end }}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{{ end }}
+
+{{ define "pageJs" }}
+{{ end }}

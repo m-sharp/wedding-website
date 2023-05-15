@@ -4,9 +4,12 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/json"
+	"html/template"
 	"io"
 	"net/http"
+	"path/filepath"
 
+	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 
@@ -61,7 +64,6 @@ func (a *ApiRouter) SetupRoutes(router *mux.Router) {
 	}
 }
 
-// ToDo: Lock down with COORS
 func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
@@ -134,18 +136,37 @@ func (a *ApiRouter) RSVPGetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	respData, err := json.Marshal(rsvps)
+	tmpl, err := template.ParseFiles(append(TemplateFiles, filepath.Join(TemplatesDir, "adminView"))...)
 	if err != nil {
-		a.log.Error("Failed to marshal RSVP response", zap.Any("Records", rsvps), zap.Error(err))
-		http.Error(w, "failed to marshal response", http.StatusInternalServerError)
+		a.log.Error("Error parsing template files", zap.Error(err))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	if _, err := w.Write(respData); err != nil {
-		a.log.Error("Failed to write response", zap.ByteString("ResponseContent", respData), zap.Error(err))
-		http.Error(w, "failed to write response", http.StatusInternalServerError)
+	if err := tmpl.ExecuteTemplate(w, "layout", map[string]interface{}{
+		csrf.TemplateTag: csrf.TemplateField(r),
+		"RSVPs":          rsvps, // ToDo: RSVPs aren't rendering in table
+
+		// ToDo: Need these?
+		"TargetDate": "10/7/23",
+		"TargetYear": 2023,
+	}); err != nil {
+		a.log.Error("Error building template files", zap.Error(err))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+
+	//respData, err := json.Marshal(rsvps)
+	//if err != nil {
+	//	a.log.Error("Failed to marshal RSVP response", zap.Any("Records", rsvps), zap.Error(err))
+	//	http.Error(w, "failed to marshal response", http.StatusInternalServerError)
+	//	return
+	//}
+	//
+	//w.Header().Set("Content-Type", "application/json")
+	//if _, err := w.Write(respData); err != nil {
+	//	a.log.Error("Failed to write response", zap.ByteString("ResponseContent", respData), zap.Error(err))
+	//	http.Error(w, "failed to write response", http.StatusInternalServerError)
+	//}
 }
 
 // BasicAuthMiddleware wraps a http.HandlerFunc in a Basic Auth check.
