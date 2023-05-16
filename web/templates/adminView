@@ -4,6 +4,7 @@
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Email Address</th>
                         <th>Attending</th>
@@ -16,21 +17,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                {{ range $i, $rsvp := .RSVPs }}
+                {{- range $i, $rsvp := .RSVPs }}
                     <tr>
                         <th>{{ $i }}</th>
                         <td>{{ $rsvp.Name }}</td>
                         <td>{{ $rsvp.Email}}</td>
                         <td>{{ $rsvp.IsAttending }}</td>
                         <td>{{ $rsvp.DinnerChoice }}</td>
-                        {{/*                    {{ $guest := index $rsvp.Guests 0 }}*/}}
-                        {{/*                    <td>{{ $guest.Name }}</td>*/}}
-                        {{/*                    <td>{{ $guest.IsAttending }}</td>*/}}
-                        {{/*                    <td>{{ $guest.DinnerChoice }}</td>*/}}
+                        {{- range $rsvp.Guests }}
+                        <td>{{ .Name }}</td>
+                        <td>{{ .IsAttending }}</td>
+                        <td>{{ .DinnerChoice }}</td>
+                        {{- else -}}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        {{- end }}
                         <td>{{ $rsvp.WantsAccomm }}</td>
                         <td>{{ $rsvp.Comments }}</td>
                     </tr>
-                {{ end }}
+                {{- end }}
                 </tbody>
             </table>
         </div>

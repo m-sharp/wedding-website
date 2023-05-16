@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -26,17 +27,37 @@ type Route struct {
 }
 
 type ApiRouter struct {
-	cfg          *lib.Config
+	cfg             *lib.Config
+	recaptchaSecret string
+	webAdminUser    string
+	webAdminPass    string
+
 	log          *zap.Logger
 	rsvpProvider *lib.RSVPProvider
 	routes       []*Route
 }
 
-func NewApiRouter(cfg *lib.Config, log *zap.Logger, client *lib.DBClient) *ApiRouter {
+func NewApiRouter(cfg *lib.Config, log *zap.Logger, client *lib.DBClient) (*ApiRouter, error) {
+	recaptchaSecret, err := cfg.Get(lib.RecaptchaSecret)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get recaptcha secret from config: %w", err)
+	}
+	adminUser, err := cfg.Get(lib.WebAdminUser)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get web admin username from config: %w", err)
+	}
+	adminPass, err := cfg.Get(lib.WebAdminPass)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get web admin pass from config: %w", err)
+	}
+
 	inst := &ApiRouter{
-		cfg:          cfg,
-		log:          log.Named("ApiRoute"),
-		rsvpProvider: lib.NewRSVPProvider(client),
+		cfg:             cfg,
+		recaptchaSecret: recaptchaSecret,
+		webAdminPass:    adminPass,
+		webAdminUser:    adminUser,
+		log:             log.Named("ApiRoute"),
+		rsvpProvider:    lib.NewRSVPProvider(client),
 	}
 	inst.routes = []*Route{
 		{
@@ -51,7 +72,7 @@ func NewApiRouter(cfg *lib.Config, log *zap.Logger, client *lib.DBClient) *ApiRo
 			MiddleWare: inst.BasicAuthMiddleware,
 		},
 	}
-	return inst
+	return inst, nil
 }
 
 func (a *ApiRouter) SetupRoutes(router *mux.Router) {
@@ -95,14 +116,7 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	recaptchaSecret, err := a.cfg.Get(lib.RecaptchaSecret)
-	if err != nil {
-		log.Error("Missing Recaptcha secret in config", zap.Error(err))
-		http.Error(w, "could not verify recaptcha token", http.StatusInternalServerError)
-		return
-	}
-
-	verified, err := lib.Verify(log, recaptchaSecret, respToken, r.RemoteAddr)
+	verified, err := lib.Verify(log, a.recaptchaSecret, respToken, r.RemoteAddr)
 	if err != nil {
 		log.Error("Error verifying Recaptcha response", zap.Error(err))
 		http.Error(w, "failed to verify recaptcha token", http.StatusInternalServerError)
@@ -145,28 +159,11 @@ func (a *ApiRouter) RSVPGetAll(w http.ResponseWriter, r *http.Request) {
 
 	if err := tmpl.ExecuteTemplate(w, "layout", map[string]interface{}{
 		csrf.TemplateTag: csrf.TemplateField(r),
-		"RSVPs":          rsvps, // ToDo: RSVPs aren't rendering in table
-
-		// ToDo: Need these?
-		"TargetDate": "10/7/23",
-		"TargetYear": 2023,
+		"RSVPs":          rsvps,
 	}); err != nil {
 		a.log.Error("Error building template files", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-
-	//respData, err := json.Marshal(rsvps)
-	//if err != nil {
-	//	a.log.Error("Failed to marshal RSVP response", zap.Any("Records", rsvps), zap.Error(err))
-	//	http.Error(w, "failed to marshal response", http.StatusInternalServerError)
-	//	return
-	//}
-	//
-	//w.Header().Set("Content-Type", "application/json")
-	//if _, err := w.Write(respData); err != nil {
-	//	a.log.Error("Failed to write response", zap.ByteString("ResponseContent", respData), zap.Error(err))
-	//	http.Error(w, "failed to write response", http.StatusInternalServerError)
-	//}
 }
 
 // BasicAuthMiddleware wraps a http.HandlerFunc in a Basic Auth check.
@@ -175,18 +172,7 @@ func (a *ApiRouter) BasicAuthMiddleware(nextHandler http.HandlerFunc) http.Handl
 	return func(w http.ResponseWriter, r *http.Request) {
 		username, password, ok := r.BasicAuth()
 		if ok {
-			adminUser, err := a.cfg.Get(lib.WebAdminUser)
-			if err != nil {
-				http.Error(w, "cannot determine web admin username", http.StatusInternalServerError)
-				return
-			}
-			adminPass, err := a.cfg.Get(lib.WebAdminPass)
-			if err != nil {
-				http.Error(w, "cannot determine web admin password", http.StatusInternalServerError)
-				return
-			}
-
-			if subtleCompare(username, adminUser) && subtleCompare(password, adminPass) {
+			if subtleCompare(username, a.webAdminUser) && subtleCompare(password, a.webAdminPass) {
 				nextHandler(w, r)
 				return
 			}

@@ -32,7 +32,10 @@ func main() {
 		log.Fatal("Failed to run DB migrations", zap.Error(err))
 	}
 
-	apiRouter := web.NewApiRouter(cfg, logger, client)
+	apiRouter, err := web.NewApiRouter(cfg, logger, client)
+	if err != nil {
+		log.Fatal("Failed to create API Router", zap.Error(err))
+	}
 
 	server := web.NewWebServer(cfg, logger, pageContext, apiRouter)
 	if err := server.Serve(); err != nil {
