@@ -13,13 +13,13 @@ $(document).ready(function() {
     // Form Fields
     let $nameInput = $("#name");
     let $emailInput = $("#email");
-    let $attendingInput = $rsvpForm.find("input[name=is_attending]");
+    let $attendingInput = $rsvpForm.find("input[name=is_attending]:checked");
     let $dinnerChoiceSelect = $("#dinner_choice");
     let $commentsInput = $("#comments");
     let $accommodations = $("#accommodations");
     let $guestNameInput = $("#guest_name");
     let $guestDinnerChoiceSelect = $("#guest_dinner_choice");
-    let $guestAttendingInput = $rsvpForm.find("input[name=guest_is_attending]");
+    let $guestAttendingInput = $rsvpForm.find("input[name=guest_is_attending]:checked");
 
     // Security
     let $recaptcha = $("#recaptcha");
