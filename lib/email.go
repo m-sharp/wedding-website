@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	WeddingAddress = "lindenandmike@gmail.com"
+	WeddingAddress = "lindenandmike@gmail.com" // ToDo: Configurable?
 
 	GMailHost = "smtp.gmail.com"
 	GMailPort = 587
