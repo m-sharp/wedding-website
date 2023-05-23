@@ -131,6 +131,6 @@ $(document).ready(function() {
 
 // Recaptcha doesn't like `let`, so `var` it is
 var onRecaptchaSubmit = function() {
-    $("#submitButton").prop('disabled', false);
+    $("#submitButton").prop("disabled", false);
 }
 onRecaptchaSubmit.name = "onRecaptchaSubmit"

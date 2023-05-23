@@ -1,7 +1,6 @@
 package web
 
 import (
-	"bytes"
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/json"
@@ -10,19 +9,13 @@ import (
 	"io"
 	"net/http"
 	"path/filepath"
-	"strings"
-	textTemplate "text/template"
 
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 
 	"github.com/m-sharp/wedding-website/lib"
-)
-
-var (
-	emailTemplatesDir   = filepath.FromSlash(filepath.Join("web", "emailTemplates"))
-	notifyEmailTmplPath = filepath.FromSlash(filepath.Join(emailTemplatesDir, "emailNotification.tmpl"))
+	"github.com/m-sharp/wedding-website/lib/email"
 )
 
 type MiddlewareFunc func(nextHandler http.HandlerFunc) http.HandlerFunc
@@ -148,34 +141,18 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *ApiRouter) sendEmails(log *zap.Logger, rsvp *lib.RSVP) {
-	// ToDo: Compile template for email, Send off email to RSVPer
-
-	notify, err := textTemplate.ParseFiles(notifyEmailTmplPath)
-	if err != nil {
-		log.Error("Failed to parse notification email template, skipping", zap.Error(err))
-		return
-	}
-
-	// ToDo: Move rendering and templates into a new email package under lib
-	buf := new(bytes.Buffer)
-	if err := notify.ExecuteTemplate(
-		buf,
-		"notification",
+	// ToDo: Send off email to RSVPer
+	log.Info("Sending notification email")
+	if err := email.SendEmail(
+		a.cfg,
+		log,
+		email.WeddingAddress,
+		email.NotificationTmpl,
 		map[string]interface{}{
 			"RSVP": rsvp,
-			"From": "lindenandmike@gmail.com",
-			"To":   "lindenandmike@gmail.com",
 		},
 	); err != nil {
-		log.Error("Failed to execute notification email template, skipping", zap.Error(err))
-		return
-	}
-	content := buf.String()
-	content = strings.TrimSpace(content)
-
-	log.Info("Sending notification email")
-	if err := lib.SendEmail(a.cfg, log, content, "lindenandmike@gmail.com"); err != nil {
-		log.Error("Failed to send notification email", zap.Error(err))
+		log.Error("Failed to send notification email: %w", zap.Error(err))
 	}
 }
 
