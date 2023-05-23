@@ -1,1 +1,29 @@
-ToDo - need both yes and no templates
+{{ define "response" }}
+From: {{ .From }}
+To: {{ .To }}
+Subject: Thank You for RSVPing!
+Content-type: text/html
+
+<html lang="en">
+    <body>
+        <h1 style="text-align: center;">Thank You for RSVPing!</h1>
+        <div>
+            <span style="display: block;"><strong>Name:&nbsp;</strong>{{ .RSVP.Name }}</span>
+            <span style="display: block;"><strong>Email Address:&nbsp;</strong>{{ .RSVP.Email }}</span>
+            <span style="display: block;"><strong>Attending:&nbsp;</strong>{{ .RSVP.IsAttending }}</span>
+            <span style="display: block;"><strong>Dinner Choice:&nbsp;</strong>{{ .RSVP.DinnerChoice }}</span>
+            {{- range .RSVP.Guests }}
+                <span style="display: block;"><strong>Partner Name:&nbsp;</strong>{{ .Name }}</span>
+                <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>{{ .IsAttending }}</span>
+                <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>{{ .DinnerChoice }}</span>
+            {{- else -}}
+                <span style="display: block;"><strong>Partner Name:&nbsp;</strong>N/A</span>
+                <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>N/A</span>
+                <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>N/A</span>
+            {{- end }}
+            <span style="display: block;"><strong>Requested Accommodation:&nbsp;</strong>{{ .RSVP.WantsAccomm }}</span>
+            <span style="display: block;"><strong>Comments:&nbsp;</strong>{{ .RSVP.Comments }}</span>
+        </div>
+    </body>
+</html>
+{{ end }}

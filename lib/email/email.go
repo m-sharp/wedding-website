@@ -85,7 +85,6 @@ func SendEmail(
 		zap.String("SMTP Host", GMailHost),
 		zap.String("SMTP Port", strconv.Itoa(GMailPort)),
 		zap.String("To", toAddress),
-		zap.String("Content", content),
 	)
 	if err = smtp.SendMail(
 		fmt.Sprintf("%s:%v", GMailHost, GMailPort),
