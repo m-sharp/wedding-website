@@ -1,0 +1,18 @@
+{{ define "body" }}
+    <section class="section" id="info">
+        <div class="container">
+            <h1 class="title is-1 is-spaced greatVibes">Wedding Info</h1>
+            <div class="content">
+                <p>Location & Directions</p>
+                <p>Registry Link</p>
+                <p>Accommodations</p>
+                <p>Schedule</p>
+                <p id="countdown">Start the clock...!</p>
+            </div>
+        </div>
+    </section>
+{{ end }}
+
+{{ define "pageJs" }}
+    <script src="/static/js/info.min.js"></script>
+{{ end }}

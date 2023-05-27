@@ -221,4 +221,4 @@
 {{ define "pageJs" }}
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/static/js/rsvp.min.js"></script>
-{{ end}}
+{{ end }}
