@@ -3,10 +3,81 @@
         <div class="container">
             <h1 class="title is-1 is-spaced greatVibes">Wedding Info</h1>
             <div class="content">
-                <p>Location & Directions</p>
-                <p>Registry Link</p>
-                <p>Accommodations</p>
-                <p>Schedule</p>
+                <h2 class="is-spaced greatVibes">Location & Directions</h2>
+                <p>The wedding is being held at the <a href="https://www.kentislandresort.com/">Kent Island Resort</a>:</p>
+                <p>
+                    <a href="https://goo.gl/maps/yakcvKLDJNpuBMNU9">
+                        <span class="icon-text">
+                            <span>500 Kent Manor Drive</span>
+                            <span>Stevensville, MD 21666</span>
+                            <span class="icon"><i class="fa-solid fa-map"></i></span>
+                        </span>
+                    </a>
+                </p>
+                <p>ToDo - text directions...?</p>
+            </div>
+            <div class="content">
+                <h2 class="is-spaced greatVibes">Registry</h2>
+                <p>
+                    Our registry can be found here on
+                    <a href="https://withjoy.com/linden-and-mike/registry">
+                        <span class="icon-text">
+                            <span>With Joy</span>
+                            <span class="icon"><i class="fa-solid fa-gift"></i></span>
+                        </span>
+                    </a>
+                </p>
+            </div>
+            <div class="content">
+                <h2 class="is-spaced greatVibes">Accommodations</h2>
+                <p>A block of rooms is reserved at the Best Western Annapolis:</p>
+                <p>
+                    <a href="https://goo.gl/maps/Z4UsZkUxAiPEYhJx6">
+                        <span class="icon-text">
+                            <span>2520 Riva Road</span>
+                            <span>Annapolis, MD 21401</span>
+                            <span class="icon"><i class="fa-solid fa-map"></i></span>
+                        </span>
+                    </a>
+                </p>
+                <p>
+                    When booking by phone, reference the <strong>Goff / Harp Wedding</strong> for a discounted rate.
+                    We also have a direct link for web booking that will be sent in response to your <a href="/rsvp">RSVP</a>.
+                    Be sure to check the box for accommodations interest when filling out the form!
+                </p>
+            </div>
+            <div class="content is-flex is-flex-direction-column">
+                <h2 class="is-spaced greatVibes">Wedding Day Schedule</h2>
+                <span class="icon-text">
+                    <span class="icon"><i class="fa-solid fa-van-shuttle"></i></span>
+                    <span>4:45 — Shuttle leaves from Best Western to KIR</span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon"><i class="fa-solid fa-ring"></i></span>
+                    <span>5:30-6:00 — Wedding Ceremony</span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon"><i class="fa-solid fa-champagne-glasses"></i></span>
+                    <span>6:00-7:00 — Cocktail Hour</span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon"><i class="fa-solid fa-utensils"></i></span>
+                    <span>7:00-11:00 — Reception</span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon"><i class="fa-solid fa-van-shuttle fa-flip-horizontal"></i></span>
+                    <span>11:00 — Shuttle leaves from KIR to Best Western</span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon"><i class="fa-solid fa-fire"></i></span>
+                    <span>11:00-12:00 — Fit Pits</span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon"><i class="fa-solid fa-van-shuttle fa-flip-horizontal"></i></span>
+                    <span>12:00 — Shuttle leaves from KIR to Best Western</span>
+                </span>
+            </div>
+            <div class="content">
                 <p id="countdown">Start the clock...!</p>
             </div>
         </div>
