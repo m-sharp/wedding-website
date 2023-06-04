@@ -25,7 +25,7 @@ RUN dart-sass/sass css/style.scss css/main.css
 RUN minify --type=css < css/main.css > /out/css/main.min.css
 RUN minify --type=js < js/main.js > /out/js/main.min.js
 RUN minify --type=js < js/rsvp.js > /out/js/rsvp.min.js
-RUN minify --type=js < js/info.js > /out/js/info.min.js
+RUN minify --type=js < js/countdown.js > /out/js/countdown.min.js
 
 FROM golang:1.17.8-alpine3.15 as website
 

@@ -1,0 +1,36 @@
+{{ define "body" }}
+    <section class="section" id="directions">
+        <div class="container">
+            <h1 class="title is-1 is-spaced greatVibes">Location & Directions</h1>
+            <div class="content">
+                <p>The wedding is being held at the <a href="https://www.kentislandresort.com/" target="_blank">Kent Island Resort</a>:</p>
+                <p>
+                    <a href="https://goo.gl/maps/yakcvKLDJNpuBMNU9" target="_blank">
+                        <span class="is-flex is-flex-direction-row address">
+                            <span class="icon"><i class="fa-solid fa-map"></i></span>
+                            <span class="icon-text is-flex-direction-column">
+                                <span>500 Kent Manor Drive</span>
+                                <span>Stevensville, MD 21666</span>
+                            </span>
+                        </span>
+                    </a>
+                </p>
+                <p>Directions from Baltimore:</p>
+                <ul>
+                    <li>Take <strong>I-695</strong> to <strong>I-97 South</strong></li>
+                    <li>Continue on <strong>I-97 South</strong> until its end at <strong>Route 50</strong></li>
+                    <li>Take <strong>Route 50 East</strong> towards Annapolis and drive over the Bay Bridge</li>
+                    <li>Once across the Bay Bridge, take the first exit on the right - <strong>Exit 27 MD Route-8 Stevensville/Romancoke</strong></li>
+                    <li>Merge right onto <strong>Route-8 South</strong></li>
+                    <li>Continue on Route-8 for 0.4mi and make a left on <strong>Kent Manor Drive</strong></li>
+                    <li>Follow <strong>Kent Manor Drive</strong> through the community development and some woods before arriving at the <strong>Kent Island Resort</strong></li>
+                </ul>
+                <p>Parking is available in the lot immediately to the right of the main Manor House at the end of Kent Manor Drive.</p>
+                <p>The wedding ceremony and reception will take place in and around the pavilion behind and to the right side of the Manor House.</p>
+            </div>
+        </div>
+    </section>
+{{ end }}
+
+{{ define "pageJs" }}
+{{ end }}

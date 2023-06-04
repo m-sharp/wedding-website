@@ -2,6 +2,9 @@
     <section class="section" id="home">
         <div class="container">
             <h1 class="title is-1 is-spaced greatVibes">We're Getting Married!</h1>
+            <div class="content">
+                <p id="countdown">Start the clock...!</p>
+            </div>
             <div class="content is-flex is-flex-direction-column">
                 <div class="infoRow">
                     <div class="icon-text is-size-3">
@@ -43,4 +46,5 @@
 {{ end }}
 
 {{ define "pageJs" }}
+    <script src="/static/js/countdown.min.js"></script>
 {{ end}}

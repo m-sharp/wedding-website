@@ -1,0 +1,22 @@
+// ToDo - should combine with accommodations.scss for common styles
+#directions .title {
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+#directions .title, #directions p, #directions ul, #directions strong {
+  color: $gold;
+}
+
+#directions .content {
+  margin: 0 1em;
+}
+
+#directions .address {
+  margin-left: 2em;
+}
+
+#directions .address>.icon {
+  padding-right: 1em;
+}
+

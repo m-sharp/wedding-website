@@ -1,0 +1,20 @@
+#accomm .title {
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+#accomm .title, #accomm p, #accomm strong {
+  color: $gold;
+}
+
+#accomm .content {
+  margin: 0 1em;
+}
+
+#accomm .address {
+  margin-left: 2em;
+}
+
+#accomm .address>.icon {
+  padding-right: 1em;
+}

@@ -1,0 +1,27 @@
+#schedule .title {
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+#schedule .table-container {
+  margin: 0 1em;
+}
+
+#schedule .title, #schedule table {
+  color: $gold;
+}
+
+#schedule table {
+  background-color: unset;
+  width: 50%;
+  margin: 0 auto;
+
+  @include touch {
+    width: 100%;
+  }
+}
+
+#schedule table td {
+  border: none;
+}
+

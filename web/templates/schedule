@@ -1,0 +1,49 @@
+{{ define "body" }}
+    <section class="section" id="schedule">
+        <div class="container">
+            <h1 class="title is-1 is-spaced greatVibes">Wedding Day Schedule</h1>
+            <div class="table-container">
+                <table class="table">
+                    <tr>
+                        <td><span class="icon"><i class="fa-solid fa-van-shuttle"></i></span></td>
+                        <td><span>4:45pm</span></td>
+                        <td><span>Shuttle leaves from Best Western to Kent Island Resort</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="icon"><i class="fa-solid fa-ring"></i></span></td>
+                        <td><span>5:30pm—6:00pm</span></td>
+                        <td><span>Wedding Ceremony</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="icon"><i class="fa-solid fa-champagne-glasses"></i></span></td>
+                        <td><span>6:00pm—7:00pm</span></td>
+                        <td><span>Cocktail Hour</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="icon"><i class="fa-solid fa-utensils"></i></span></td>
+                        <td><span>7:00pm—11:00pm</span></td>
+                        <td><span>Wedding Reception</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="icon"><i class="fa-solid fa-van-shuttle fa-flip-horizontal"></i></span></td>
+                        <td><span>11:00pm</span></td>
+                        <td><span>Shuttle leaves from Kent Island Resort to Best Western</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="icon"><i class="fa-solid fa-fire"></i></span></td>
+                        <td><span>11:00pm—12:00am</span></td>
+                        <td><span>After Party with Fire Pits</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="icon"><i class="fa-solid fa-van-shuttle fa-flip-horizontal"></i></span></td>
+                        <td><span>12:00am</span></td>
+                        <td><span>Shuttle leaves from KIR to Best Western</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+{{ end }}
+
+{{ define "pageJs" }}
+{{ end }}
