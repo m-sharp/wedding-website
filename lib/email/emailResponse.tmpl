@@ -8,21 +8,37 @@ Content-type: text/html
     <body>
         <h1 style="text-align: center;">Thank You for RSVPing!</h1>
         <div>
-            <span style="display: block;"><strong>Name:&nbsp;</strong>{{ .RSVP.Name }}</span>
-            <span style="display: block;"><strong>Email Address:&nbsp;</strong>{{ .RSVP.Email }}</span>
-            <span style="display: block;"><strong>Attending:&nbsp;</strong>{{ .RSVP.IsAttending }}</span>
-            <span style="display: block;"><strong>Dinner Choice:&nbsp;</strong>{{ .RSVP.DinnerChoice }}</span>
-            {{- range .RSVP.Guests }}
-                <span style="display: block;"><strong>Partner Name:&nbsp;</strong>{{ .Name }}</span>
-                <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>{{ .IsAttending }}</span>
-                <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>{{ .DinnerChoice }}</span>
-            {{- else -}}
-                <span style="display: block;"><strong>Partner Name:&nbsp;</strong>N/A</span>
-                <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>N/A</span>
-                <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>N/A</span>
-            {{- end }}
-            <span style="display: block;"><strong>Requested Accommodation:&nbsp;</strong>{{ .RSVP.WantsAccomm }}</span>
-            <span style="display: block;"><strong>Comments:&nbsp;</strong>{{ .RSVP.Comments }}</span>
+            {{ if .RSVP.IsAttending }}
+                <p>We can't wait to see you at the wedding! Here's your RSVP as we received it:</p>
+                <div>
+                    <span style="display: block;"><strong>Name:&nbsp;</strong>{{ .RSVP.Name }}</span>
+                    <span style="display: block;"><strong>Email Address:&nbsp;</strong>{{ .RSVP.Email }}</span>
+                    <span style="display: block;"><strong>Attending:&nbsp;</strong>{{ .RSVP.IsAttending }}</span>
+                    <span style="display: block;"><strong>Dinner Choice:&nbsp;</strong>{{ .RSVP.DinnerChoice.ToString }}</span>
+                    {{- range .RSVP.Guests }}
+                        <span style="display: block;"><strong>Partner Name:&nbsp;</strong>{{ .Name }}</span>
+                        <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>{{ .IsAttending }}</span>
+                        <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>{{ .DinnerChoice.ToString }}</span>
+                    {{- end }}
+                    <span style="display: block;"><strong>Requested Accommodations:&nbsp;</strong>{{ .RSVP.WantsAccomm }}</span>
+                </div>
+                {{ if .RSVP.WantsAccomm }}
+                    <p>
+                        Use <a href="https://www.bestwestern.com/en_US/book/hotel-rooms.21044.html?groupId=V58CH8R8" target="_blank">this link</a> to book your stay at the Best Western Annapolis.
+                        Make sure you receive our discounted rate of $169 on your final receipt!
+                    </p>
+                    {{/*TODO - Registry*/}}
+                    <p>
+                        <strong>NOTE:</strong> this booking link defaults to a two night stay. If staying only one night,
+                        make sure you change the booking by clicking <strong>EDIT</strong> on the top banner and adjusting
+                        the <strong>CHECK-IN</strong> date.
+                    </p>
+                {{ end }}
+                {{/*TODO - Link to schedule page*/}}
+            {{ else }}
+                <p>We're sorry to miss you at the wedding!</p>
+                {{/*<p>ToDo...</p>*/}}
+            {{ end }}
         </div>
     </body>
 </html>

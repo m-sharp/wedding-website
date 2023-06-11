@@ -23,11 +23,11 @@
                         <td>{{ $rsvp.Name }}</td>
                         <td>{{ $rsvp.Email}}</td>
                         <td>{{ $rsvp.IsAttending }}</td>
-                        <td>{{ $rsvp.DinnerChoice }}</td>
+                        <td>{{ $rsvp.DinnerChoice.ToString }}</td>
                         {{- range $rsvp.Guests }}
                         <td>{{ .Name }}</td>
                         <td>{{ .IsAttending }}</td>
-                        <td>{{ .DinnerChoice }}</td>
+                        <td>{{ .DinnerChoice.ToString }}</td>
                         {{- else -}}
                         <td></td>
                         <td></td>

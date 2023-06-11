@@ -11,11 +11,11 @@ Content-type: text/html
             <span style="display: block;"><strong>Name:&nbsp;</strong>{{ .RSVP.Name }}</span>
             <span style="display: block;"><strong>Email Address:&nbsp;</strong>{{ .RSVP.Email }}</span>
             <span style="display: block;"><strong>Attending:&nbsp;</strong>{{ .RSVP.IsAttending }}</span>
-            <span style="display: block;"><strong>Dinner Choice:&nbsp;</strong>{{ .RSVP.DinnerChoice }}</span>
+            <span style="display: block;"><strong>Dinner Choice:&nbsp;</strong>{{ .RSVP.DinnerChoice.ToString }}</span>
             {{- range .RSVP.Guests }}
             <span style="display: block;"><strong>Partner Name:&nbsp;</strong>{{ .Name }}</span>
             <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>{{ .IsAttending }}</span>
-            <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>{{ .DinnerChoice }}</span>
+            <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>{{ .DinnerChoice.ToString }}</span>
             {{- else -}}
             <span style="display: block;"><strong>Partner Name:&nbsp;</strong>N/A</span>
             <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>N/A</span>

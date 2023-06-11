@@ -42,9 +42,10 @@
                                 <div class="select is-medium is-rounded is-fullwidth">
                                     <select id="dinner_choice" name="dinner_choice" required>
                                         <option value="">Select a Meal...</option>
-                                        <option value="1">Filet Mignon with things</option>
-                                        <option value="2">Broiled Salmon with things</option>
-                                        <option value="3">Vegetables, like just vegetables</option>
+                                        <option value="1">Beef Short Rib with BBQ Demi-glace</option>
+                                        <option value="2">Honey Garlic Salmon</option>
+                                        <option value="3">Vegetarian</option>
+                                        <option value="4">Vegan</option>
                                     </select>
                                 </div>
                                 <span class="icon is-medium is-left">
@@ -101,9 +102,10 @@
                                         <label for="guest_dinner_choice" hidden>Guest Dinner Selection</label>
                                         <select id="guest_dinner_choice" name="guest_dinner_choice">
                                             <option value="">Select a Meal...</option>
-                                            <option value="1">Filet Mignon with things</option>
-                                            <option value="2">Broiled Salmon with things</option>
-                                            <option value="3">Vegetables, like just vegetables</option>
+                                            <option value="1">Beef Short Rib with BBQ Demi-glace</option>
+                                            <option value="2">Honey Garlic Salmon</option>
+                                            <option value="3">Vegetarian</option>
+                                            <option value="4">Vegan</option>
                                         </select>
                                     </div>
                                     <span class="icon is-medium is-left">

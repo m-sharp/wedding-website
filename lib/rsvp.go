@@ -17,13 +17,29 @@ const (
 
 type DinnerType int
 
-// ToDo - add dinner DB table and expose via API for form building? Or just hardcode everything?
+// ToDo - the dinners should probably be in their own DB table...but this will do
 const (
 	UnknownDinner = DinnerType(iota)
-	DinnerA
-	DinnerB
-	DinnerC
+	BeefShortRib
+	HoneySalmon
+	Vegetarian
+	Vegan
 )
+
+func (d DinnerType) ToString() string {
+	switch d {
+	case BeefShortRib:
+		return "Short Rib"
+	case HoneySalmon:
+		return "Salmon"
+	case Vegetarian:
+		return "Vegetarian"
+	case Vegan:
+		return "Vegan"
+	default:
+		return "Unknown"
+	}
+}
 
 type RSVP struct {
 	Name         string     `json:"name"`
