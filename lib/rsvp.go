@@ -29,9 +29,9 @@ const (
 func (d DinnerType) ToString() string {
 	switch d {
 	case BeefShortRib:
-		return "Short Rib"
+		return "Beef Short Rib with BBQ Demi-glace"
 	case HoneySalmon:
-		return "Salmon"
+		return "Honey Garlic Salmon"
 	case Vegetarian:
 		return "Vegetarian"
 	case Vegan:
@@ -71,6 +71,19 @@ func (r *RSVP) Validate() error {
 	}
 
 	return nil
+}
+
+func (r *RSVP) BothAttending() bool {
+	guestAttending := false
+	if len(r.Guests) > 0 {
+		guestAttending = r.Guests[0].IsAttending
+	}
+
+	if !r.IsAttending && !guestAttending {
+		return false
+	}
+
+	return true
 }
 
 type PlusOne struct {

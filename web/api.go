@@ -141,19 +141,18 @@ func (a *ApiRouter) RSVPCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *ApiRouter) sendEmails(log *zap.Logger, rsvp *lib.RSVP) {
-	// ToDo: Finish template off
-	//log.Info("Sending response email")
-	//if err := email.SendEmail(
-	//	a.cfg,
-	//	log,
-	//	rsvp.Email,
-	//	email.ResponseTmpl,
-	//	map[string]interface{}{
-	//		"RSVP": rsvp,
-	//	},
-	//); err != nil {
-	//	log.Error("Failed to send response email", zap.Error(err))
-	//}
+	log.Info("Sending response email")
+	if err := email.SendEmail(
+		a.cfg,
+		log,
+		rsvp.Email,
+		email.ResponseTmpl,
+		map[string]interface{}{
+			"RSVP": rsvp,
+		},
+	); err != nil {
+		log.Error("Failed to send response email", zap.Error(err))
+	}
 
 	log.Info("Sending notification email")
 	if err := email.SendEmail(

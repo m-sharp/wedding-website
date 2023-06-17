@@ -60,7 +60,14 @@ func SendEmail(
 		return errors.New("target email template not found")
 	}
 
-	tmpl, err := template.ParseFiles(targetPath)
+	tmpl, err := template.New("email").Funcs(template.FuncMap{
+		"boolToString": func(b bool) string {
+			if b {
+				return "Yes"
+			}
+			return "No"
+		},
+	}).ParseFiles(targetPath)
 	if err != nil {
 		return fmt.Errorf("failed to parse notification email template: %w", err)
 	}
