@@ -26,7 +26,24 @@
                     <li>Follow <strong>Kent Manor Drive</strong> through the community development and some woods before arriving at the <strong>Kent Island Resort</strong></li>
                 </ul>
                 <p>Parking is available in the lot immediately to the right of the main Manor House at the end of Kent Manor Drive.</p>
-                <p>The wedding ceremony and reception will take place in and around the pavilion behind and to the right side of the Manor House.</p>
+                <p>The wedding ceremony and reception will take place in and around the pavilion behind and to the right side of the Manor House. Look for ushers to help when you arrive!</p>
+            </div>
+            <div class="gallery">
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-1.jpg" class="galleryImg" alt="Linden & Mike Pic 1">
+                </figure>
+                <figure class="galleryItem galleryHighlight">
+                    <img src="/static/assets/Linden_Mike-49.jpg" class="galleryImg" alt="Linden & Mike Pic 2">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-116.jpg" class="galleryImg" alt="Linden & Mike Pic 3">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-51.jpg" class="galleryImg" alt="Linden & Mike Pic 4">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-53.jpg" class="galleryImg" alt="Linden & Mike Pic 5">
+                </figure>
             </div>
         </div>
     </section>

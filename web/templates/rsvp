@@ -61,7 +61,7 @@
                     </div>
                     <div class="field-body">
                         <div class="field has-addons has-addons-centered">
-                            <div class="control">
+                            <div class="control attending">
                                 <label class="radio is-medium">
                                     <input type="radio"
                                            name="is_attending"
@@ -121,7 +121,7 @@
                         </div>
                         <div class="field-body">
                             <div class="field has-addons has-addons-centered">
-                                <div class="control">
+                                <div class="control attending">
                                     <label class="radio is-medium">
                                         <input type="radio"
                                                name="guest_is_attending"
@@ -183,7 +183,7 @@
                                 <input type="checkbox"
                                     id="accommodations"
                                     name="accommodations">
-                                <span id="accommodationSpan">I am interested in accommodations with the wedding block</span>
+                                <span id="accommodationSpan">I am interested in wedding block accommodations</span>
                             </div>
                         </div>
                     </div>

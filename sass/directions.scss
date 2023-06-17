@@ -9,7 +9,12 @@
 }
 
 #directions .content {
-  margin: 0 1em;
+  margin: 0 auto 2em;
+  width: 80%;
+
+  @include touch {
+    width: 95%;
+  }
 }
 
 #directions .address {

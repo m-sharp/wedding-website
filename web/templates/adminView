@@ -19,7 +19,7 @@
                 <tbody>
                 {{- range $i, $rsvp := .RSVPs }}
                     <tr>
-                        <th>{{ $i }}</th>
+                        <th>{{ len (printf "a%*s" $i "") }}</th> {{/* This is some VooDoo to increment $i by 1 since that function doesn't exist in Go Templates...*/}}
                         <td>{{ $rsvp.Name }}</td>
                         <td>{{ $rsvp.Email}}</td>
                         <td>{{ $rsvp.IsAttending }}</td>

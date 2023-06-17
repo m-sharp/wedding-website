@@ -19,10 +19,11 @@
   vertical-align: sub;
 }
 
-.radio+.radio {
-  @include desktop {
-    margin-left: 10.5em;
-  }
+#rsvp .attending {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
 }
 
 #rsvp form>div.field:not(:last-child),
@@ -44,4 +45,10 @@
   border-style: solid;
   border-radius: 0.5em;
   padding: 0.5em;
+}
+
+@include touch {
+  #rsvp .g-recaptcha {
+    transform:scale(0.80);
+  }
 }

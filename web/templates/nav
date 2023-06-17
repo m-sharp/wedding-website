@@ -12,7 +12,14 @@
                 <a class="navbar-item" href="/schedule">Schedule</a>
                 <a class="navbar-item" href="/directions">Directions</a>
                 <a class="navbar-item" href="/accommodations">Accommodations</a>
-                <a class="navbar-item" href="https://withjoy.com/linden-and-mike/registry" target="_blank">Registry</a>
+                <a class="navbar-item" href="https://withjoy.com/linden-and-mike/registry" target="_blank">
+                    <span class="icon-text">
+                        <span>Registry</span>
+                        <span class="icon">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </span>
+                    </span>
+                </a>
                 <a class="navbar-item" href="/rsvp">RSVP</a>
             </div>
         </div>

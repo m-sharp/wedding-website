@@ -13,13 +13,11 @@ $(document).ready(function() {
     // Form Fields
     let $nameInput = $("#name");
     let $emailInput = $("#email");
-    let $attendingInput = $rsvpForm.find("input[name=is_attending]:checked");
     let $dinnerChoiceSelect = $("#dinner_choice");
     let $commentsInput = $("#comments");
     let $accommodations = $("#accommodations");
     let $guestNameInput = $("#guest_name");
     let $guestDinnerChoiceSelect = $("#guest_dinner_choice");
-    let $guestAttendingInput = $rsvpForm.find("input[name=guest_is_attending]:checked");
 
     // Security
     let $recaptcha = $("#recaptcha");
@@ -52,8 +50,8 @@ $(document).ready(function() {
             $guestDinnerChoiceSelect.val("");
             $guestDinnerChoiceSelect.prop("required", false);
 
-            $guestAttendingInput.prop("checked", false);
-            $guestAttendingInput.prop("required", false);
+            $rsvpForm.find("input[name=guest_is_attending]:checked").prop("checked", false);
+            $rsvpForm.find("input[name=guest_is_attending]:checked").prop("required", false);
         } else {
             $text.text("Remove Guest");
 
@@ -62,7 +60,7 @@ $(document).ready(function() {
 
             $guestDinnerChoiceSelect.prop("required", true);
 
-            $guestAttendingInput.prop("required", true);
+            $rsvpForm.find("input[name=guest_is_attending]:checked").prop("required", true);
         }
     });
 
@@ -81,7 +79,7 @@ $(document).ready(function() {
         let payload = {
             name: $nameInput.val(),
             email: $emailInput.val(),
-            is_attending: ($attendingInput.val() === 'true'),
+            is_attending: ($rsvpForm.find("input[name=is_attending]:checked").val() === 'true'),
             dinner_choice: parseInt($dinnerChoiceSelect.val()),
             accommodations: $accommodations.is(":checked"),
             comments: $commentsInput.val(),
@@ -92,7 +90,7 @@ $(document).ready(function() {
                 {
                     name: $guestNameInput.val(),
                     dinner_choice: parseInt($guestDinnerChoiceSelect.val()),
-                    is_attending: ($guestAttendingInput.val() === 'true'),
+                    is_attending: ($rsvpForm.find("input[name=guest_is_attending]:checked").val() === 'true'),
                 }
             ];
         }

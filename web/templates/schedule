@@ -11,28 +11,28 @@
                     </tr>
                     <tr>
                         <td><span class="icon"><i class="fa-solid fa-ring"></i></span></td>
-                        <td><span>5:30pm—6:00pm</span></td>
+                        <td><span>5:30—6:00</span></td>
                         <td><span>Wedding Ceremony</span></td>
                     </tr>
                     <tr>
                         <td><span class="icon"><i class="fa-solid fa-champagne-glasses"></i></span></td>
-                        <td><span>6:00pm—7:00pm</span></td>
+                        <td><span>6:00—7:00</span></td>
                         <td><span>Cocktail Hour</span></td>
                     </tr>
                     <tr>
                         <td><span class="icon"><i class="fa-solid fa-utensils"></i></span></td>
-                        <td><span>7:00pm—11:00pm</span></td>
+                        <td><span>7:00—11:00</span></td>
                         <td><span>Wedding Reception</span></td>
                     </tr>
                     <tr>
                         <td><span class="icon"><i class="fa-solid fa-van-shuttle fa-flip-horizontal"></i></span></td>
-                        <td><span>11:00pm</span></td>
+                        <td><span>11:00</span></td>
                         <td><span>Shuttle leaves from Kent Island Resort to Best Western</span></td>
                     </tr>
                     <tr>
                         <td><span class="icon"><i class="fa-solid fa-fire"></i></span></td>
-                        <td><span>11:00pm—12:00am</span></td>
-                        <td><span>After Party with Fire Pits</span></td>
+                        <td><span>11:00—12:00am</span></td>
+                        <td><span>On-site After Party</span></td>
                     </tr>
                     <tr>
                         <td><span class="icon"><i class="fa-solid fa-van-shuttle fa-flip-horizontal"></i></span></td>
@@ -40,6 +40,23 @@
                         <td><span>Shuttle leaves from KIR to Best Western</span></td>
                     </tr>
                 </table>
+            </div>
+            <div class="gallery">
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-22.jpg" class="galleryImg" alt="Linden & Mike Pic 1">
+                </figure>
+                <figure class="galleryItem galleryHighlight">
+                    <img src="/static/assets/Linden_Mike-8.jpg" class="galleryImg" alt="Linden & Mike Pic 2">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-43.jpg" class="galleryImg" alt="Linden & Mike Pic 3">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-57.jpg" class="galleryImg" alt="Linden & Mike Pic 4">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="/static/assets/Linden_Mike-52.jpg" class="galleryImg" alt="Linden & Mike Pic 5">
+                </figure>
             </div>
         </div>
     </section>
