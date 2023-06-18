@@ -20,14 +20,14 @@
     </body>
     <footer class="footer greatVibes is-flex is-flex-direction-row">
         <figure>
-            <img class="flowers is-hidden-touch" src="/static/assets/navy-and-wine-flowers-transparent.png" alt="Navy and Wine flowers">
+            <img class="flowers is-hidden-touch" src="https://d3dw1zv83qxyzb.cloudfront.net/navy-and-wine-flowers-transparent.webp" alt="Navy and Wine flowers">
         </figure>
         <div class="footerLogo content has-text-centered is-flex is-flex-direction-column">
             <span class="initials block is-size-2 pb-4">L & M</span>
             <span class="date is-size-4">{{ .TargetDate }}</span>
         </div>
         <figure>
-            <img class="flowers mirrored" src="/static/assets/navy-and-wine-flowers-transparent.png" alt="Navy and Wine flowers">
+            <img class="flowers mirrored" src="https://d3dw1zv83qxyzb.cloudfront.net/navy-and-wine-flowers-transparent.webp" alt="Navy and Wine flowers">
         </figure>
     </footer>
 </html>

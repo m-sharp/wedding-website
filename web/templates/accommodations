@@ -26,19 +26,19 @@
             </div>
             <div class="gallery">
                 <figure class="galleryItem">
-                    <img src="/static/assets/Linden_Mike-89.jpg" class="galleryImg" alt="Linden & Mike Pic 1">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-89.webp" class="galleryImg" alt="Linden & Mike Pic 1">
                 </figure>
                 <figure class="galleryItem galleryHighlight">
-                    <img src="/static/assets/Linden_Mike-120.jpg" class="galleryImg" alt="Linden & Mike Pic 2">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-120.webp" class="galleryImg" alt="Linden & Mike Pic 2">
                 </figure>
                 <figure class="galleryItem">
-                    <img src="/static/assets/Linden_Mike-96.jpg" class="galleryImg" alt="Linden & Mike Pic 3">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-96.webp" class="galleryImg" alt="Linden & Mike Pic 3">
                 </figure>
                 <figure class="galleryItem">
-                    <img src="/static/assets/Linden_Mike-81.jpg" class="galleryImg" alt="Linden & Mike Pic 4">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-81.webp" class="galleryImg" alt="Linden & Mike Pic 4">
                 </figure>
                 <figure class="galleryItem">
-                    <img src="/static/assets/Linden_Mike-118.jpg" class="galleryImg" alt="Linden & Mike Pic 5">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-118.webp" class="galleryImg" alt="Linden & Mike Pic 5">
                 </figure>
             </div>
         </div>
