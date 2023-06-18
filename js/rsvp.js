@@ -64,6 +64,24 @@ $(document).ready(function() {
         }
     });
 
+    // Dinner Select required toggle based on attending radio
+    $rsvpForm.find("input[name=is_attending]").change(function() {
+        if ($rsvpForm.find("input[name=is_attending]:checked").val() === 'true') {
+            $dinnerChoiceSelect.prop("required", true);
+        } else {
+            $dinnerChoiceSelect.prop("required", false);
+        }
+    });
+
+    // Guest Dinner Select required toggle based on guest attending radio
+    $rsvpForm.find("input[name=guest_is_attending]").change(function() {
+        if ($rsvpForm.find("input[name=guest_is_attending]:checked").val() === 'true') {
+            $guestDinnerChoiceSelect.prop("required", true);
+        } else {
+            $guestDinnerChoiceSelect.prop("required", false);
+        }
+    });
+
     // Form submit
     $rsvpForm.on("submit", function(e) {
         e.preventDefault();

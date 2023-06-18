@@ -19,7 +19,7 @@ type DinnerType int
 
 // ToDo - the dinners should probably be in their own DB table...but this will do
 const (
-	UnknownDinner = DinnerType(iota)
+	None = DinnerType(iota)
 	BeefShortRib
 	HoneySalmon
 	Vegetarian
@@ -28,6 +28,8 @@ const (
 
 func (d DinnerType) ToString() string {
 	switch d {
+	case None:
+		return "None"
 	case BeefShortRib:
 		return "Beef Short Rib with BBQ Demi-glace"
 	case HoneySalmon:
@@ -58,7 +60,7 @@ func (r *RSVP) Validate() error {
 	if r.Email == "" {
 		return fmt.Errorf(rsvpValidationErr, "missing Email Address")
 	}
-	if r.DinnerChoice == UnknownDinner {
+	if r.DinnerChoice == None && r.IsAttending {
 		return fmt.Errorf(rsvpValidationErr, "invalid dinner selection")
 	}
 	if len(r.Guests) > 1 {
@@ -96,7 +98,7 @@ func (p *PlusOne) Validate() error {
 	if p.Name == "" {
 		return errors.New("missing Name")
 	}
-	if p.DinnerChoice == UnknownDinner {
+	if p.DinnerChoice == None && p.IsAttending {
 		return errors.New("invalid dinner selection")
 	}
 
