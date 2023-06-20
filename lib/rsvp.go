@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	InsertRSVP  = `INSERT INTO rsvp (content, ctime) VALUES (?, ?);`
-	GetAllRSVPs = `SELECT id, content, ctime FROM rsvp;`
+	InsertRSVP  = `INSERT INTO rsvp (content, ctime) VALUES (?, ?)`
+	GetAllRSVPs = `SELECT id, content, ctime FROM rsvp`
 
 	rsvpValidationErr = "invalid RSVP: %s"
 )
@@ -43,6 +43,17 @@ func (d DinnerType) ToString() string {
 	}
 }
 
+func (d DinnerType) IsValid(isAttending bool) bool {
+	if d == None && isAttending {
+		return false
+	}
+	if d < None || d > Vegan {
+		return false
+	}
+
+	return true
+}
+
 type RSVP struct {
 	Name         string     `json:"name"`
 	Email        string     `json:"email"`
@@ -60,7 +71,7 @@ func (r *RSVP) Validate() error {
 	if r.Email == "" {
 		return fmt.Errorf(rsvpValidationErr, "missing Email Address")
 	}
-	if r.DinnerChoice == None && r.IsAttending {
+	if !r.DinnerChoice.IsValid(r.IsAttending) {
 		return fmt.Errorf(rsvpValidationErr, "invalid dinner selection")
 	}
 	if len(r.Guests) > 1 {
@@ -98,7 +109,7 @@ func (p *PlusOne) Validate() error {
 	if p.Name == "" {
 		return errors.New("missing Name")
 	}
-	if p.DinnerChoice == None && p.IsAttending {
+	if !p.DinnerChoice.IsValid(p.IsAttending) {
 		return errors.New("invalid dinner selection")
 	}
 
@@ -159,9 +170,17 @@ func (r *RSVPProvider) Add(ctx context.Context, toAdd *RSVP) error {
 		return fmt.Errorf("failed to marshal RSVP entry for add: %w", err)
 	}
 
-	_, err = r.client.Db.ExecContext(ctx, InsertRSVP, marshaled, time.Now())
+	result, err := r.client.Db.ExecContext(ctx, InsertRSVP, marshaled, time.Now())
 	if err != nil {
 		return fmt.Errorf("failed to insert RSVP record: %w", err)
+	}
+
+	numAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get number of rows affected by insert: %w", err)
+	}
+	if numAffected != 1 {
+		return fmt.Errorf("unexpected number of rows affected by RSVP insert: got %v, expected 1", numAffected)
 	}
 
 	return nil
