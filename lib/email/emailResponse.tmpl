@@ -1,0 +1,51 @@
+{{ define "response" }}
+From: {{ .From }}
+To: {{ .To }}
+Subject: Thank You for RSVPing!
+Content-type: text/html
+
+<html lang="en">
+    <body>
+        <h1 style="text-align: center;">Thank You for RSVPing!</h1>
+        <div>
+            {{ if .RSVP.BothAttending }}
+                <p>We can't wait to see you at the wedding! Here's your RSVP as we received it:</p>
+                <div>
+                    <span style="display: block;"><strong>Name:&nbsp;</strong>{{ .RSVP.Name }}</span>
+                    <span style="display: block;"><strong>Email Address:&nbsp;</strong>{{ .RSVP.Email }}</span>
+                    <span style="display: block;"><strong>Attending:&nbsp;</strong>{{ boolToString .RSVP.IsAttending }}</span>
+                    <span style="display: block;"><strong>Dinner Choice:&nbsp;</strong>{{ .RSVP.DinnerChoice.ToString }}</span>
+                    {{- range .RSVP.Guests }}
+                        <span style="display: block;"><strong>Partner Name:&nbsp;</strong>{{ .Name }}</span>
+                        <span style="display: block;"><strong>Partner Attending:&nbsp;</strong>{{ boolToString .IsAttending }}</span>
+                        <span style="display: block;"><strong>Partner Dinner Choice:&nbsp;</strong>{{ .DinnerChoice.ToString }}</span>
+                    {{- end }}
+                </div>
+                {{- if .RSVP.WantsAccomm }}
+                    <h2>Accommodations</h2>
+                    <p>Use <a href="https://www.bestwestern.com/en_US/book/hotel-rooms.21044.html?groupId=V58CH8R8" target="_blank">this link</a> to book your stay at the Best Western Annapolis.</p>
+                    <p>Make sure you receive our discounted rate of $169 on your final receipt!</p>
+                    <p><strong>NOTE:</strong> this booking link defaults to a two night stay. If staying only one night, make sure you change the booking by clicking <strong>EDIT</strong> on the top banner and adjusting the <strong>CHECK-IN</strong> date.</p>
+                    <p>The cut off date for booking a room with the wedding block is <strong>August 22, 2023</strong>!</p>
+                {{- end }}
+                <h2>General Information</h2>
+                <p>The dress code for the wedding is Semi-Formal or Cocktail.</p>
+                <p>For a schedule of the wedding day's events, see our <a href="https://www.lindenandmike.com/schedule" target="_blank">Schedule Page</a>.</p>
+                <p>For directions to the venue, see our <a href="https://www.lindenandmike.com/directions">Directions Page</a>.</p>
+                <p>Our registry can be found on <a href="https://withjoy.com/linden-and-mike/registry" target="_blank">With Joy</a>.</p>
+                <p>If you have any questions or concerns you can reach us directly by phone or email at <a href="mailto:lindenandmike@gmail.com">lindenandmike@gmail.com</a>.</p>
+                <br/>
+                <p>See you on October 7th!</p>
+                <p>Linden & Mike</p>
+            {{ else }}
+                <p>We're sorry to miss you at the wedding!</p>
+                <p>We completely understand, it's a busy time of year and an even busier wedding season!</p>
+                <p>If you have any questions or concerns you can reach us directly by phone or email at <a href="mailto:lindenandmike@gmail.com">lindenandmike@gmail.com</a>.</p>
+                <br/>
+                <p>All the best,</p>
+                <p>Linden & Mike</p>
+            {{ end }}
+        </div>
+    </body>
+</html>
+{{ end }}

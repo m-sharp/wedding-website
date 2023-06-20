@@ -1,13 +1,13 @@
 package lib
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 
 	"go.uber.org/zap"
 
 	"github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
 const (
@@ -17,13 +17,11 @@ const (
 )
 
 type DBClient struct {
-	ctx context.Context
 	log *zap.Logger
-
-	Db *sql.DB
+	Db  *sqlx.DB
 }
 
-func NewDBClient(ctx context.Context, cfg *Config, log *zap.Logger) (*DBClient, error) {
+func NewDBClient(cfg *Config, log *zap.Logger) (*DBClient, error) {
 	log = log.Named("DBClient")
 
 	username, err := cfg.Get(DBUsername)
@@ -64,7 +62,7 @@ func NewDBClient(ctx context.Context, cfg *Config, log *zap.Logger) (*DBClient, 
 	if err != nil {
 		return nil, fmt.Errorf(openErr, err)
 	}
-	return &DBClient{ctx: ctx, log: log, Db: db}, nil
+	return &DBClient{log: log, Db: sqlx.NewDb(db, "mysql")}, nil
 }
 
 func (d *DBClient) CheckConnection() error {

@@ -2,6 +2,9 @@
     <section class="section" id="home">
         <div class="container">
             <h1 class="title is-1 is-spaced greatVibes">We're Getting Married!</h1>
+            <div class="content">
+                <p id="countdown">Start the clock...!</p>
+            </div>
             <div class="content is-flex is-flex-direction-column">
                 <div class="infoRow">
                     <div class="icon-text is-size-3">
@@ -34,14 +37,14 @@
                         </a>
                     </div>
                 </div>
-                <hr/>
-                <div class="infoRow">
-                    <p>More information and formal invitations to follow.</p>
-                </div>
             </div>
             <figure class="homeGif is-flex is-justify-content-center">
-                <img src="/static/assets/cute_kiss.gif" alt="Linden and Mike being cute">
+                <img src="https://d3dw1zv83qxyzb.cloudfront.net/cute_kiss.gif" alt="Linden and Mike being cute">
             </figure>
         </div>
     </section>
 {{ end }}
+
+{{ define "pageJs" }}
+    <script src="/static/js/countdown.min.js"></script>
+{{ end}}

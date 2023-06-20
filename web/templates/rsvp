@@ -1,0 +1,226 @@
+{{ define "body" }}
+    <section class="section" id="rsvp">
+        <div class="container">
+            <article id="errorBanner" class="message is-danger" style="display: none;">
+                <div class="message-header">
+                    <p>Error Submitting Form</p>
+                    <button id="errorClose" class="delete" aria-label="close" tabindex="0"></button>
+                </div>
+                <div class="message-body has-text-centered is-flex is-flex-direction-column">
+                    <span id="errorText"></span>
+                    <span>Please check your inputs and try again.</span>
+                    <span>If issues persist, please contact Mike with this error!</span>
+                </div>
+            </article>
+            <h1 class="title is-1 is-spaced greatVibes">RSVP</h1>
+            <div id="successText" class="has-text-centered is-flex-direction-column" hidden>
+                <h2 class="title">Thank You for RSVPing!</h2>
+                <p>We can't wait to share our special day with you. Please check your email for a confirmation message.</p>
+            </div>
+            <form id="rsvpForm">
+                <div class="field is-horizontal">
+                    <div class="field-label is-medium">
+                        <label class="label">Guest Information</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control is-expanded has-icons-left">
+                                <label for="name" hidden>Name</label>
+                                <input id="name"
+                                    name="name"
+                                    class="input is-medium is-rounded"
+                                    type="text"
+                                    required
+                                    placeholder="First & Last Name">
+                                <span class="icon is-medium is-left">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <div class="control is-expanded has-icons-left">
+                                <div class="select is-medium is-rounded is-fullwidth">
+                                    <select id="dinner_choice" name="dinner_choice" required>
+                                        <option value="">Select a Meal...</option>
+                                        <option value="1">Beef Short Rib with BBQ Demi-glace</option>
+                                        <option value="2">Honey Garlic Salmon</option>
+                                        <option value="3">Vegetarian</option>
+                                        <option value="4">Vegan</option>
+                                    </select>
+                                </div>
+                                <span class="icon is-medium is-left">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-medium">
+                        <label class="label" for="is_attending">Attending?</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field has-addons has-addons-centered">
+                            <div class="control attending">
+                                <label class="radio is-medium">
+                                    <input type="radio"
+                                           name="is_attending"
+                                           required
+                                           value="true">
+                                    Happily Accepts
+                                </label>
+                                <label class="radio is-medium">
+                                    <input type="radio"
+                                           name="is_attending"
+                                           required
+                                           value="false">
+                                    Regretfully Declines
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="guestForm" class="field" hidden>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-medium">
+                            <label class="label">Guest Information</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded has-icons-left">
+                                    <label for="guest_name" hidden>Guest Name</label>
+                                    <input id="guest_name" name="guest_name" class="input is-medium is-rounded" type="text" placeholder="First & Last Name">
+                                    <span class="icon is-medium is-left">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <div class="control is-expanded has-icons-left">
+                                    <div class="select is-medium is-rounded is-fullwidth">
+                                        <label for="guest_dinner_choice" hidden>Guest Dinner Selection</label>
+                                        <select id="guest_dinner_choice" name="guest_dinner_choice">
+                                            <option value="">Select a Meal...</option>
+                                            <option value="1">Beef Short Rib with BBQ Demi-glace</option>
+                                            <option value="2">Honey Garlic Salmon</option>
+                                            <option value="3">Vegetarian</option>
+                                            <option value="4">Vegan</option>
+                                        </select>
+                                    </div>
+                                    <span class="icon is-medium is-left">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-medium">
+                            <label class="label" for="guest_is_attending">Attending?</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field has-addons has-addons-centered">
+                                <div class="control attending">
+                                    <label class="radio is-medium">
+                                        <input type="radio"
+                                               name="guest_is_attending"
+                                               value="true">
+                                        Happily Accepts
+                                    </label>
+                                    <label class="radio is-medium">
+                                        <input type="radio"
+                                               name="guest_is_attending"
+                                               value="false">
+                                        Regretfully Declines
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <button id="addGuest" class="button is-small is-rounded" tabindex="0">
+                            <span class="icon">
+                              <i class="fa-solid fa-user-plus"></i>
+                            </span>
+                            <span class="buttonText">Add Guest</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-medium">
+                        <label class="label" for="dinner_choice">Contact Information</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-narrow">
+                            <p class="control has-icons-left">
+                                <label for="email" hidden>Email Address</label>
+                                <input id="email"
+                                       name="email"
+                                       class="input is-medium is-rounded"
+                                       type="email"
+                                       required
+                                       placeholder="Email Address">
+                                <span class="icon is-medium is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-medium">
+                        <label class="label">Accommodations</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="checkbox control">
+                                <label for="accommodations" hidden>I want accommodation information</label>
+                                <input type="checkbox"
+                                    id="accommodations"
+                                    name="accommodations">
+                                <span id="accommodationSpan">I am interested in wedding block accommodations</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-medium">
+                        <label class="label" for="comments">Comments</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <textarea id="comments" name="comments" class="textarea is-medium" placeholder="Dietary Restrictions? Playlist Suggestions?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <div id="recaptcha" class="g-recaptcha" data-sitekey="6LfnzAgmAAAAAIzgX4P9YPZadbxiGvX50SKdoWLH" data-callback="onRecaptchaSubmit"></div>
+                    </div>
+                </div>
+
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <button id="submitButton" class="button is-primary is-large is-rounded" tabindex="0" disabled>
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{{ end }}
+
+{{ define "pageJs" }}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="/static/js/rsvp.min.js"></script>
+{{ end }}

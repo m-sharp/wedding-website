@@ -1,0 +1,47 @@
+{{ define "body" }}
+    <section class="section" id="adminView">
+        <div class="table-container">
+            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Attending</th>
+                        <th>Dinner Choice</th>
+                        <th>Partner Name</th>
+                        <th>Partner Attending</th>
+                        <th>Partner Dinner Choice</th>
+                        <th>Requested Accommodation</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{- range $i, $rsvp := .RSVPs }}
+                    <tr>
+                        <th>{{ len (printf "a%*s" $i "") }}</th> {{/* This is some VooDoo to increment $i by 1 since that function doesn't exist in Go Templates...*/}}
+                        <td>{{ $rsvp.Name }}</td>
+                        <td>{{ $rsvp.Email}}</td>
+                        <td>{{ $rsvp.IsAttending }}</td>
+                        <td>{{ $rsvp.DinnerChoice.ToString }}</td>
+                        {{- range $rsvp.Guests }}
+                        <td>{{ .Name }}</td>
+                        <td>{{ .IsAttending }}</td>
+                        <td>{{ .DinnerChoice.ToString }}</td>
+                        {{- else -}}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        {{- end }}
+                        <td>{{ $rsvp.WantsAccomm }}</td>
+                        <td>{{ $rsvp.Comments }}</td>
+                    </tr>
+                {{- end }}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{{ end }}
+
+{{ define "pageJs" }}
+{{ end }}

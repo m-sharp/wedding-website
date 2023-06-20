@@ -6,12 +6,13 @@ $dark-blue: #20233D;
 $pink: #F64C72;
 $burgundy: #4d182e;
 $gold: #EEE8AA;
+$focus-gold: #FFE08A;
 
 // Bulma Variable Overrides
 $family-primary: "lora";
 $family-sans-serif: "lora";
 $primary: $burgundy;
-$link: $pink;
+$link: $blue;
 $navbar-background-color: $burgundy;
 $navbar-item-color: $gold;
 $navbar-item-hover-background-color: $burgundy;
@@ -19,15 +20,39 @@ $footer-background-color: $burgundy;
 $footer-color: $gold;
 $footer-padding: 2rem 0 0.5rem;
 $section-padding: 2rem 0.5rem;
+$button-focus-border-color: $focus-gold;
+$input-focus-border-color: $focus-gold;
 
 @import "bulma/bulma.sass";
 @import "layout.scss";
 @import "home.scss";
+@import "rsvp.scss";
+@import "directions.scss";
+@import "accommodations.scss";
+@import "schedule.scss";
 
 /* General */
-a:hover {
+a {
+  color: $pink;
+}
+
+a:hover, .checkbox:hover{
   color: gold !important;
   text-decoration: underline;
+}
+
+.select select:focus, .select select:active, .select select.is-focused, .select select.is-active,
+.textarea:focus, .textarea:active, .is-focused.textarea, .is-active.textarea,
+.input:focus, .input:active, .is-focused.input, .is-active.input {
+  border-width: 0 0.2em 0.2em;
+}
+
+.button:focus, .button.is-focused, .button:active, .button.is-active {
+  border-width: 0.2em;
+}
+
+.button.is-primary:focus, .button.is-primary.is-focused {
+  border-color: $focus-gold;
 }
 
 /* Fonts */

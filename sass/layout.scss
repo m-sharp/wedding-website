@@ -5,6 +5,7 @@ body  {
 
 section {
   background: $dark-blue;
+  min-height: 65vh;
 }
 
 .spacer {
@@ -72,4 +73,37 @@ $flowerLeft: -80px;
   position: relative;
   left: $flowerLeft;
   top: -5px;
+}
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 15px;
+  width: 70%;
+  margin: 1em auto 0;
+
+  @include touch {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.gallery .galleryItem {
+  display: grid;
+}
+
+.gallery .galleryImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery .galleryItem.galleryHighlight {
+  grid-column: span 2;
+  grid-row: span 2;
+
+  @include touch {
+    grid-column: unset;
+    grid-row: unset;
+  }
 }

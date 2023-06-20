@@ -1,0 +1,54 @@
+#rsvp .title {
+  text-align: center;
+}
+
+#rsvp h1.title {
+  letter-spacing: 15px;
+}
+
+#rsvp h1, #rsvp label, #rsvp p, #rsvp .title, .checkbox {
+  color: $gold;
+}
+
+#rsvp form {
+  padding: 1em;
+}
+
+#rsvp label.radio {
+  font-size: 1.25em;
+  vertical-align: sub;
+}
+
+#rsvp .attending {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+#rsvp form>div.field:not(:last-child),
+#guestForm>div.field:not(:last-child) {
+  margin-bottom: 1.75rem;
+}
+
+#rsvp textarea {
+  border-radius: 25px;
+}
+
+.checkbox.control {
+  padding-top: 0.75em;
+}
+
+#rsvp .recaptchaNeeded {
+  border-color: red;
+  border-width: 0.5em;
+  border-style: solid;
+  border-radius: 0.5em;
+  padding: 0.5em;
+}
+
+@include touch {
+  #rsvp .g-recaptcha {
+    transform:scale(0.80);
+  }
+}

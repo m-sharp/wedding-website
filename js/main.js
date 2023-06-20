@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // Navbar
     let $burger = $(".navbar-burger");
     let active = $burger.attr("aria-expanded");
     $burger.click(function() {

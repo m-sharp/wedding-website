@@ -1,0 +1,49 @@
+{{ define "body" }}
+    <section class="section" id="accomm">
+        <div class="container">
+            <h1 class="title is-1 is-spaced greatVibes">Accommodations</h1>
+            <div class="content">
+                <p>A block of rooms is reserved at the Best Western Annapolis:</p>
+                <p>
+                    <a href="https://goo.gl/maps/Z4UsZkUxAiPEYhJx6" target="_blank">
+                        <span class="is-flex is-flex-direction-row address">
+                            <span class="icon"><i class="fa-solid fa-map"></i></span>
+                            <span class="icon-text is-flex-direction-column">
+                                <span>2520 Riva Road</span>
+                                <span>Annapolis, MD 21401</span>
+                            </span>
+                        </span>
+                    </a>
+                </p>
+                <p>
+                    There will be a shuttle running to and from the Kent Island Resort from the Best Western Annapolis for the wedding.
+                    See the <a href="/schedule">Schedule Page</a> for timing.
+                </p>
+                <p>When booking by phone, reference the <strong>Goff / Harp Wedding</strong> for a discounted rate.</p>
+                <p>We also have a direct link for web booking that will be sent in response to your <a href="/rsvp">RSVP</a>.</p>
+                <p>Be sure to check the box for interest in accommodations when filling out the form!</p>
+                <p><strong>Note:</strong> The cut off date for hotel block bookings is <strong>August 22, 2023</strong>!</p>
+            </div>
+            <div class="gallery">
+                <figure class="galleryItem">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-89.webp" class="galleryImg" alt="Linden & Mike Pic 1">
+                </figure>
+                <figure class="galleryItem galleryHighlight">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-120.webp" class="galleryImg" alt="Linden & Mike Pic 2">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-96.webp" class="galleryImg" alt="Linden & Mike Pic 3">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-81.webp" class="galleryImg" alt="Linden & Mike Pic 4">
+                </figure>
+                <figure class="galleryItem">
+                    <img src="https://d3dw1zv83qxyzb.cloudfront.net/Linden_Mike-118.webp" class="galleryImg" alt="Linden & Mike Pic 5">
+                </figure>
+            </div>
+        </div>
+    </section>
+{{ end }}
+
+{{ define "pageJs" }}
+{{ end }}

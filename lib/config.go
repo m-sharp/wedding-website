@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// ToDo: This is probably complex enough to warrant a file now...
 const (
 	emailPassEnvVar = "EMAILPASSWORD"
 	EmailPass       = "Email"
@@ -23,6 +24,18 @@ const (
 
 	devEnvVar   = "DEV"
 	Development = "Development"
+
+	webAdminEnvVar = "WEBUSER"
+	WebAdminUser   = "WebAdminUser"
+
+	webAdminPassEnvVar = "WEBPASS"
+	WebAdminPass       = "WebAdminPass"
+
+	recaptchaSecretEnvVar = "RECAPTCHASEC"
+	RecaptchaSecret       = "RecaptchaSecret"
+
+	csrfSecretEnvVar = "CSRFSEC"
+	CSRFSecret       = "CSRFSecret"
 
 	lookupErr = "ENVVAR for %q not found"
 )
@@ -55,36 +68,28 @@ func (c *Config) Set(key, value string) {
 	c.cfg[key] = value
 }
 
+var (
+	lookupMap = map[string]string{
+		emailPassEnvVar:       EmailPass,
+		dbHostEnvVar:          DBHost,
+		dbUserEnvVar:          DBUsername,
+		dbPassEnvVar:          DBPass,
+		dbPortEnvVar:          DBPort,
+		webAdminEnvVar:        WebAdminUser,
+		webAdminPassEnvVar:    WebAdminPass,
+		recaptchaSecretEnvVar: RecaptchaSecret,
+		csrfSecretEnvVar:      CSRFSecret,
+	}
+)
+
 func (c *Config) Populate() error {
-	email, ok := os.LookupEnv(emailPassEnvVar)
-	if !ok {
-		return fmt.Errorf(lookupErr, emailPassEnvVar)
+	for envVarKey, cfgKey := range lookupMap {
+		val, ok := os.LookupEnv(envVarKey)
+		if !ok {
+			return fmt.Errorf(lookupErr, envVarKey)
+		}
+		c.cfg[cfgKey] = val
 	}
-	c.cfg[EmailPass] = email
-
-	host, ok := os.LookupEnv(dbHostEnvVar)
-	if !ok {
-		return fmt.Errorf(lookupErr, dbHostEnvVar)
-	}
-	c.cfg[DBHost] = host
-
-	user, ok := os.LookupEnv(dbUserEnvVar)
-	if !ok {
-		return fmt.Errorf(lookupErr, dbUserEnvVar)
-	}
-	c.cfg[DBUsername] = user
-
-	dbPass, ok := os.LookupEnv(dbPassEnvVar)
-	if !ok {
-		return fmt.Errorf(lookupErr, dbPassEnvVar)
-	}
-	c.cfg[DBPass] = dbPass
-
-	dbPort, ok := os.LookupEnv(dbPortEnvVar)
-	if !ok {
-		return fmt.Errorf(lookupErr, dbPortEnvVar)
-	}
-	c.cfg[DBPort] = dbPort
 
 	if _, ok := os.LookupEnv(devEnvVar); !ok {
 		c.cfg[Development] = "false"

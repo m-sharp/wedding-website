@@ -1,13 +1,17 @@
 FROM tdewolff/minify:latest as builder
 RUN mkdir /build
+
 RUN mkdir /out
+RUN mkdir /out/css
+RUN mkdir /out/js
+
 WORKDIR /build
 
 # Setup SASS
 # SASS needs glibc - https://github.com/CargoSense/dart_sass/issues/13
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
 RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.34-r0/glibc-2.34-r0.apk
-RUN apk add glibc-2.34-r0.apk
+RUN apk add --force-overwrite glibc-2.34-r0.apk
 RUN wget https://github.com/sass/dart-sass/releases/download/1.53.0/dart-sass-1.53.0-linux-x64.tar.gz
 RUN tar -xzf dart-sass-1.53.0-linux-x64.tar.gz
 
@@ -18,34 +22,33 @@ COPY ./js/ js/
 
 # Build Sass & Minify
 RUN dart-sass/sass css/style.scss css/main.css
-RUN minify --type=css < css/main.css > /out/main.min.css
-RUN minify --type=js < js/main.js > /out/main.min.js
+RUN minify --type=css < css/main.css > /out/css/main.min.css
+RUN minify --type=js < js/main.js > /out/js/main.min.js
+RUN minify --type=js < js/rsvp.js > /out/js/rsvp.min.js
+RUN minify --type=js < js/countdown.js > /out/js/countdown.min.js
 
 FROM golang:1.17.8-alpine3.15 as website
-ARG EMAIL_PASS
-ENV EMAILPASSWORD $EMAIL_PASS
 
-ARG DB_HOST
-ENV DBHOST $DB_HOST
-
-ARG DB_USER
-ENV DBUSER $DB_USER
-
-ARG DB_PASS
-ENV DBPASSWORD $DB_PASS
-
-ARG DB_PORT
-ENV DBPORT $DB_PORT
+ENV EMAILPASSWORD ""
+ENV DBHOST ""
+ENV DBUSER ""
+ENV DBPASSWORD ""
+ENV DBPORT ""
+ENV WEBUSER ""
+ENV WEBPASS ""
+ENV RECAPTCHASEC ""
+ENV CSRFSEC ""
 
 RUN mkdir /wedding-website
 WORKDIR /wedding-website
 RUN mkdir app/
 
 COPY web/ web/
-COPY --from=builder /out/main.min.css web/static/css/
-COPY --from=builder /out/main.min.js web/static/js/
+COPY --from=builder /out/css/ web/static/css/
+COPY --from=builder /out/js/ web/static/js/
 
 COPY go.mod .
+COPY go.sum .
 COPY main.go .
 COPY lib/ lib/
 COPY vendor/ vendor/

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"sort"
 	"time"
 
 	"go.uber.org/zap"
@@ -38,10 +39,22 @@ func RunAll(ctx context.Context, client *lib.DBClient, log *zap.Logger) error {
 		return err
 	}
 
+	migrations := getAllMigrations()
+	var sorted []int
+	for key := range migrations {
+		sorted = append(sorted, key)
+	}
+	sort.Ints(sorted)
+
 	var ran []Migration
-	for i, migration := range getAllMigrations() {
+	for _, i := range sorted {
 		if i <= startCount {
 			continue
+		}
+
+		migration, ok := migrations[i]
+		if !ok {
+			return fmt.Errorf("failed to get migration %d, this shouldn't happen", i)
 		}
 
 		log.Debug("Running migration", zap.Int("Migration Number", i))
