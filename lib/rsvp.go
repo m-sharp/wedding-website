@@ -11,6 +11,7 @@ import (
 const (
 	InsertRSVP  = `INSERT INTO rsvp (content, ctime) VALUES (?, ?)`
 	GetAllRSVPs = `SELECT id, content, ctime FROM rsvp`
+	DeleteRSVP  = `DELETE FROM rsvp where id = ?`
 
 	rsvpValidationErr = "invalid RSVP: %s"
 )
@@ -55,6 +56,7 @@ func (d DinnerType) IsValid(isAttending bool) bool {
 }
 
 type RSVP struct {
+	Id           int        `json:"id"`
 	Name         string     `json:"name"`
 	Email        string     `json:"email"`
 	IsAttending  bool       `json:"is_attending"`
@@ -128,6 +130,8 @@ func (r *RSVPRow) toRSVP() (*RSVP, error) {
 		return nil, fmt.Errorf("failed to unmarshal RSVP Row content: %w", err)
 	}
 
+	rsvp.Id = r.Id
+
 	return &rsvp, nil
 }
 
@@ -181,6 +185,23 @@ func (r *RSVPProvider) Add(ctx context.Context, toAdd *RSVP) error {
 	}
 	if numAffected != 1 {
 		return fmt.Errorf("unexpected number of rows affected by RSVP insert: got %v, expected 1", numAffected)
+	}
+
+	return nil
+}
+
+func (r *RSVPProvider) Remove(ctx context.Context, id int) error {
+	result, err := r.client.Db.ExecContext(ctx, DeleteRSVP, id)
+	if err != nil {
+		return fmt.Errorf("failed to delete RSVP record %d: %w", id, err)
+	}
+
+	numAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get number of rows affected by delete: %w", err)
+	}
+	if numAffected != 1 {
+		return fmt.Errorf("unexpected number of rows affected by RSVP delete: got %d, expected 1", numAffected)
 	}
 
 	return nil
