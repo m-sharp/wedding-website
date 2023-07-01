@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
@@ -70,6 +71,12 @@ func NewApiRouter(cfg *lib.Config, log *zap.Logger, client *lib.DBClient) (*ApiR
 			Path:       "/api/rsvp",
 			Method:     http.MethodGet,
 			Handler:    inst.RSVPGetAll,
+			MiddleWare: inst.BasicAuthMiddleware,
+		},
+		{
+			Path:       "/api/rsvp/{id}",
+			Method:     http.MethodDelete,
+			Handler:    inst.RSVPDelete,
 			MiddleWare: inst.BasicAuthMiddleware,
 		},
 	}
@@ -192,6 +199,34 @@ func (a *ApiRouter) RSVPGetAll(w http.ResponseWriter, r *http.Request) {
 		a.log.Error("Error building template files", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func (a *ApiRouter) RSVPDelete(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	params := mux.Vars(r)
+	idStr, ok := params["id"]
+	if !ok {
+		a.log.Error("Failed to get target RSVP ID for delete")
+		http.Error(w, "no ID found for delete", http.StatusBadRequest)
+		return
+	}
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		a.log.Error("Failed to parse ID as an integer", zap.String("ID", idStr), zap.Error(err))
+		http.Error(w, "malformed ID supplied", http.StatusBadRequest)
+		return
+	}
+
+	a.log.Info("Deleting RSVP record", zap.Int("ID", id))
+	if err := a.rsvpProvider.Remove(ctx, id); err != nil {
+		a.log.Error("Failed to delete RSVP record", zap.Int("ID", id), zap.Error(err))
+		http.Error(w, "failed to delete RSVP record", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
 
 // BasicAuthMiddleware wraps a http.HandlerFunc in a Basic Auth check.
