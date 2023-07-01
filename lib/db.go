@@ -3,6 +3,7 @@ package lib
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"go.uber.org/zap"
 
@@ -14,6 +15,9 @@ const (
 	dbName = "wedding"
 
 	openErr = "error opening mysql connection: %w"
+
+	maxConnTTL   = time.Minute * 2
+	maxConnCount = 10
 )
 
 type DBClient struct {
@@ -62,6 +66,11 @@ func NewDBClient(cfg *Config, log *zap.Logger) (*DBClient, error) {
 	if err != nil {
 		return nil, fmt.Errorf(openErr, err)
 	}
+
+	db.SetConnMaxLifetime(maxConnTTL)
+	db.SetMaxOpenConns(maxConnCount)
+	db.SetMaxIdleConns(maxConnCount)
+
 	return &DBClient{log: log, Db: sqlx.NewDb(db, "mysql")}, nil
 }
 
