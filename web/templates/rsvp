@@ -15,7 +15,7 @@
             <h1 class="title is-1 is-spaced greatVibes">RSVP</h1>
             <div id="successText" class="has-text-centered is-flex-direction-column" hidden>
                 <h2 class="title">Thank You for RSVPing!</h2>
-                <p>We can't wait to share our special day with you. Please check your email for a confirmation message.</p>
+                <p>Please check your email for a confirmation message.</p>
             </div>
             <form id="rsvpForm">
                 <div class="field is-horizontal">
